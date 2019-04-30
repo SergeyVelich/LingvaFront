@@ -20,12 +20,11 @@ export class GroupComponent implements OnInit {
   
   ngOnInit() {  
     this.groupForm = this.formbulider.group({  
-      EmpName: ['', [Validators.required]],  
-      DateOfBirth: ['', [Validators.required]],  
-      EmailId: ['', [Validators.required]],  
-      Gender: ['', [Validators.required]],  
-      Address: ['', [Validators.required]],  
-      PinCode: ['', [Validators.required]],  
+      Name: ['', [Validators.required]],  
+      Date: ['', [Validators.required]],  
+      LanguageId: ['', [Validators.required]],  
+      Description: ['', [Validators.required]],  
+      Picture: ['', [Validators.required]],  
     });  
     this.loadAllGroups();  
   }  
@@ -34,7 +33,8 @@ export class GroupComponent implements OnInit {
   }  
   onFormSubmit() {  
     this.dataSaved = false;  
-    const group = this.groupForm.value;  
+    const group = this.groupForm.value;
+    debugger;  
     this.CreateGroup(group);  
     this.groupForm.reset();  
   }  
@@ -43,11 +43,11 @@ export class GroupComponent implements OnInit {
       this.massage = null;  
       this.dataSaved = false;  
       this.groupIdUpdate = group.id;  
-      this.groupForm.controls['EmpName'].setValue(group.name);  
-     this.groupForm.controls['DateOfBirth'].setValue(group.date);  
-      this.groupForm.controls['EmailId'].setValue(group.languageId);  
-      this.groupForm.controls['Gender'].setValue(group.description);  
-      this.groupForm.controls['Address'].setValue(group.picture);
+      this.groupForm.controls['Name'].setValue(group.name);  
+      this.groupForm.controls['Date'].setValue(group.date);  
+      this.groupForm.controls['LanguageId'].setValue(group.languageId);  
+      this.groupForm.controls['Description'].setValue(group.description);  
+      this.groupForm.controls['Picture'].setValue(group.picture);
     });  
   
   }  

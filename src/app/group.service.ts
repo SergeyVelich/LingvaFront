@@ -15,21 +15,18 @@ export class GroupService {
     return this.http.get<Group[]>(this.url);  
   }  
   getGroupById(groupId: string): Observable<Group> {  
-    return this.http.get<Group>(this.url + '/GetGroupDetailsById/' + groupId);  
+    return this.http.get<Group>(this.url + '/get?id=' + groupId);  
   }  
   createGroup(group: Group): Observable<Group> {  
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json'}) };  
-    return this.http.post<Group>(this.url + '/InsertGroupDetails/',  
-    group, httpOptions);  
+    return this.http.post<Group>(this.url + '/create', group, httpOptions);  
   }  
   updateGroup(group: Group): Observable<Group> {  
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json'}) };  
-    return this.http.put<Group>(this.url + '/UpdateGroupDetails/',  
-    group, httpOptions);  
+    return this.http.put<Group>(this.url + '/update', group, httpOptions);  
   }  
   deleteGroupById(groupid: string): Observable<number> {  
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json'}) };  
-    return this.http.delete<number>(this.url + '/DeleteGroupDetails?id=' +groupid,  
- httpOptions);  
+    return this.http.delete<number>(this.url + '/delete?id=' +groupid, httpOptions);  
   }  
 }  
