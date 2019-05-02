@@ -26,7 +26,7 @@ export class AddOrUpdateGroupComponent implements OnInit {
       this.groupInfo = {
         id: '0',
         name: '',
-        date: '',
+        date: new Date(),
         languageId: 1,
         description: '',
         picture: '',

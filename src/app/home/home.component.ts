@@ -34,16 +34,17 @@ export class HomeComponent implements OnInit {
 public createOrUpdateGroup = function(group: any) {
     // if group is present in groupData, we can assume this is an update
     // otherwise it is adding a new element
+    debugger;
     let groupWithId;
     groupWithId = _.find(this.groupData, (el => el.id === group.id));
 
     if (groupWithId) {
       const updateIndex = _.findIndex(this.groupData, {id: groupWithId.id});
       this.groupService.update(group).subscribe(
-        groupRecord =>  this.groupData.splice(updateIndex, 1, group)
+        groupRecord => this.groupData.splice(updateIndex, 1, group)
       );
     } else {
-      this.groupService.add(group).subscribe(
+      this.groupService.create(group).subscribe(
         groupRecord => this.groupData.push(group)
       );
     }
@@ -56,7 +57,6 @@ public createOrUpdateGroup = function(group: any) {
   };
 
   public createClicked = function() {
-    debugger;
     this.currentGroup = this.setInitialValuesForGroupData(); 
   };
 

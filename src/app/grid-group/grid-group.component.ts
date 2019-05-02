@@ -28,7 +28,6 @@ export class GridGroupComponent implements OnInit {
   }
 
   public newRecord() {
-    debugger;
     this.createClicked.emit();
   }
 }
