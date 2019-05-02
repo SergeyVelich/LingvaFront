@@ -1,0 +1,29 @@
+<button type="button" class="btn btn-info" matTooltip="Click Create Button"(click)="newRecord(groupInfo)">New</button>
+<table>
+  <thead>
+      <tr>
+          <th class="tbl2">Title</th>  
+          <th class="tbl2">Date</th>  
+          <th class="tbl2">Language</th>  
+          <th class="tbl2">Description</th>  
+          <th class="tbl2">Picture</th>  
+          <th class="tbl2">Edit</th>  
+          <th class="tbl2">Delete</th> 
+      </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let groupInfo of groupData"> 
+          <td class="tbl2">{{groupInfo.name}}</td>  
+          <td class="tbl2">{{groupInfo.date | date: 'dd/MM/yyyy' }}</td>  
+          <td class="tbl2">{{groupInfo.languageId}}</td>  
+          <td class="tbl2">{{groupInfo.description}}</td>  
+          <td class="tbl2">{{groupInfo.picture}}</td> 
+          <td class="tbl2">  
+            <button type="button" class="btn btn-info"matTooltip="Click Edit Button"(click)="editRecord(groupInfo)">Edit</button>  
+          </td>  
+          <td class="tbl2">  
+            <button type="button" class="btn btn-danger"matTooltip="Click Delete Button"(click)="deleteRecord(groupInfo)">Delete</button>  
+          </td>  
+      </tr>
+  </tbody>
+</table>

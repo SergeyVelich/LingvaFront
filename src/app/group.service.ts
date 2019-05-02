@@ -9,24 +9,27 @@ import { Group } from './group';
 })  
   
 export class GroupService {  
-  url = 'http://localhost:6001/Api/Group';  
-  constructor(private http: HttpClient) { }  
-  getAllGroup(): Observable<Group[]> {  
-    return this.http.get<Group[]>(this.url);  
+  private headers: HttpHeaders;
+  private accessPointUrl: string;
+  
+  constructor(private http: HttpClient) {
+    this.accessPointUrl = 'http://localhost:6001/api/group';
+    this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
+  }
+
+  getAll(): Observable<Group[]> {  
+    return this.http.get<Group[]>(this.accessPointUrl);  
   }  
-  getGroupById(groupId: string): Observable<Group> {  
-    return this.http.get<Group>(this.url + '/get?id=' + groupId);  
+  getById(groupId: string): Observable<Group> {  
+    return this.http.get<Group>(this.accessPointUrl + '/get?id=' + groupId, {headers: this.headers});  
   }  
-  createGroup(group: Group): Observable<Group> {  
-    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json'}) };  
-    return this.http.post<Group>(this.url + '/create', group, httpOptions);  
+  create(group: Group): Observable<Group> {   
+    return this.http.post<Group>(this.accessPointUrl + '/create', group, {headers: this.headers});  
   }  
-  updateGroup(group: Group): Observable<Group> {  
-    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json'}) };  
-    return this.http.put<Group>(this.url + '/update', group, httpOptions);  
+  update(group: Group): Observable<Group> {   
+    return this.http.put<Group>(this.accessPointUrl + '/update', group, {headers: this.headers});  
   }  
-  deleteGroupById(groupid: string): Observable<number> {  
-    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json'}) };  
-    return this.http.delete<number>(this.url + '/delete?id=' +groupid, httpOptions);  
+  remove(group: Group): Observable<number> {  
+    return this.http.delete<number>(this.accessPointUrl + '/delete?id=' + group.id, {headers: this.headers});  
   }  
 }  

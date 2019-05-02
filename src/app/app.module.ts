@@ -1,6 +1,6 @@
+import { RouterModule, Routes } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';  
-import { NgModule } from '@angular/core';  
-import { GroupService } from './group.service';  
+import { NgModule } from '@angular/core';    
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';  
 import { HttpClientModule, HttpClient } from '@angular/common/http';  
 import {  
@@ -11,13 +11,25 @@ import { MatRadioModule } from '@angular/material/radio';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';  
   
 import { AppRoutingModule } from './app-routing.module';  
-import { AppComponent } from './app.component';  
-import { GroupComponent } from './group/group.component';  
-  
+import { AppComponent } from './app.component';
+
+import { GroupService } from './group.service';
+import { AddOrUpdateGroupComponent } from './add-or-update-group/add-or-update-group.component';
+import { GridGroupComponent } from './grid-group/grid-group.component';
+import { HomeComponent } from './home/home.component';  
+
+import { DecimalPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
+
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent }
+ 
+];
+
 @NgModule({  
   declarations: [  
     AppComponent,  
-    GroupComponent  
+    HomeComponent, AddOrUpdateGroupComponent, GridGroupComponent  
   ],  
   imports: [  
     BrowserModule,  
@@ -37,9 +49,10 @@ import { GroupComponent } from './group/group.component';
     MatInputModule,  
     MatTooltipModule,  
     MatToolbarModule,  
-    AppRoutingModule  
+    AppRoutingModule,
+    RouterModule.forRoot(appRoutes)  
   ],  
-  providers: [HttpClientModule, GroupService,MatDatepickerModule],  
+  providers: [HttpClientModule, MatDatepickerModule, GroupService],  
   bootstrap: [AppComponent]  
 })  
 export class AppModule { }  

@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-md-4">
+        <app-add-or-update-group (groupCreated)="createOrUpdateGroup($event)" [groupInfo]="currentGroup"></app-add-or-update-group>
+    </div>
+    <div class="col-md-8">
+        <h2 *ngIf="!groupInfo || groupInfo.id === undefined">Add record</h2>
+        <h2 *ngIf="groupInfo && groupInfo.id !== undefined">Update record (ID: )</h2>
+        <app-grid-group [groupData]="groupData" (editClicked)="editClicked($event)" (createClicked)="createClicked($event)" (removeClicked)="removeClicked($event)"></app-grid-group>
+    </div>
+  </div>
+
+
