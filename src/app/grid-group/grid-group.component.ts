@@ -12,11 +12,16 @@ export class GridGroupComponent implements OnInit {
   @Output() createClicked = new EventEmitter<any>();
   @Output() editClicked = new EventEmitter<any>();
 
-  constructor() { }
+  public displayedColumns : string[];
+  public dataSource: Array<any>;
+
+  constructor() { 
+    this.displayedColumns = ["date", "name", "language", "description", "picture", "edit", "delete"];
+  }
 
   ngOnInit() {
   }
-
+ 
   public deleteRecord(record) {
     this.removeClicked.emit(record);
   }

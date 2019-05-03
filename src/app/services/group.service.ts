@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';  
 import { HttpHeaders } from '@angular/common/http';  
 import { Observable } from 'rxjs';  
-import { Group } from './group';  
+import { Group } from 'src/app/models/group';  
   
  @Injectable({  
   providedIn: 'root'  
@@ -23,7 +23,7 @@ export class GroupService {
   getById(groupId: string): Observable<Group> {  
     return this.http.get<Group>(this.accessPointUrl + '/get?id=' + groupId, {headers: this.headers});  
   }  
-  create(group: Group): Observable<Group> {   
+  create(group: Group): Observable<Group> {  
     return this.http.post<Group>(this.accessPointUrl + '/create', group, {headers: this.headers});  
   }  
   update(group: Group): Observable<Group> {   

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { GroupService } from '../group.service'
+import { GroupService } from '../services/group.service'
 import * as _ from 'lodash';
-import { Group } from '../group';
+import { Group } from '../models/group';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   public currentGroup: any;
 
   constructor (private groupService: GroupService) {
-    groupService.getAll().subscribe((data: any) => this.groupData = data);
+    groupService.getAll().subscribe((response: any) => this.groupData = response);
     this.currentGroup = this.setInitialValuesForGroupData();
   }
 
@@ -32,20 +32,17 @@ export class HomeComponent implements OnInit {
   }
 
 public createOrUpdateGroup = function(group: any) {
-    // if group is present in groupData, we can assume this is an update
-    // otherwise it is adding a new element
-    debugger;
     let groupWithId;
     groupWithId = _.find(this.groupData, (el => el.id === group.id));
 
     if (groupWithId) {
       const updateIndex = _.findIndex(this.groupData, {id: groupWithId.id});
       this.groupService.update(group).subscribe(
-        groupRecord => this.groupData.splice(updateIndex, 1, group)
+        () => this.groupData.splice(updateIndex, 1, group)
       );
     } else {
       this.groupService.create(group).subscribe(
-        groupRecord => this.groupData.push(group)
+        () => this.groupData.push(group)
       );
     }
 
@@ -63,7 +60,7 @@ public createOrUpdateGroup = function(group: any) {
   public removeClicked(record) {
     const deleteIndex = _.findIndex(this.groupData, {id: record.id});
     this.groupService.remove(record).subscribe(
-      result => this.groupData.splice(deleteIndex, 1)
+      () => this.groupData.splice(deleteIndex, 1)
     );
   }
 }

@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { Group } from '../group';
+import { Group } from '../models/group';
+import { Language } from '../models/language';
+import { LanguageService } from '../services/language.service';
 
 @Component({
   selector: 'app-add-or-update-group',
@@ -10,13 +12,20 @@ export class AddOrUpdateGroupComponent implements OnInit {
   @Output() groupCreated = new EventEmitter<any>();
   @Input() groupInfo: Group;
 
+  languages: Language[];
+
   public buttonText = 'Save';
 
-  constructor() {
+  constructor(private languageService: LanguageService) {
     this.clearGroupInfo();
     console.log(this.groupInfo.date);
   }
   ngOnInit() {
+    this.languageService.getAll().subscribe((response: any) => {
+      console.log(response);
+      this.languages = response;
+      console.log(this.languages);    
+    });
   }
 
   private clearGroupInfo = function() {

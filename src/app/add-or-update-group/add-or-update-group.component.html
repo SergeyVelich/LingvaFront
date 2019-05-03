@@ -1,94 +1,53 @@
 <div>
     <h2></h2>
-    <form>
+    <form class = add-or-update-group-form>
       <div class="form-group">
-          <label for="name-input">Name</label>
-          <input type="string" id="name-input" [(ngModel)]="groupInfo.name" class="form-control" name="name"/>
+          <mat-form-field>
+              <input matInput type="text" placeholder="Name" [(ngModel)]="groupInfo.name" name="name">
+            </mat-form-field>
       </div>
       <div class="form-group">
-          <label for="date-input">Date:</label>
-          <input type="date" id="date-input" [ngModel]="groupInfo.date | date: 'yyyy-MM-dd'" (ngModelChange)="updateDate($event)" class="form-control" name="date"/>
+        <mat-form-field>
+          <mat-label>Date</mat-label>
+          <input matInput [ngModel]="groupInfo.date | date: 'yyyy-MM-dd'" [matDatepicker]="from" (ngModelChange)="updateDate($event)" placeholder="Choose a date" name="date">        
+          <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+          <mat-datepicker #from></mat-datepicker>
+        </mat-form-field>
       </div>
       <div class="form-group">
-          <label for="languageId-input">Language</label>
-          <input type="number" id="languageId-input" [(ngModel)]="groupInfo.languageId" class="form-control" name="languageId"/>
+          <mat-form-field>
+              <mat-label>Language</mat-label>
+              <mat-select [(ngModel)]="groupInfo.languageId" name="languageId">
+                <mat-option *ngFor="let language of languages" [value]="language.id">{{language.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
       </div>
       <div class="form-group">
-          <label for="description-input">Description</label>
-          <input type="string" id="description-input" [(ngModel)]="groupInfo.description" class="form-control" name="description"/>
+          <mat-form-field>
+              <input matInput type="text" placeholder="Description" [(ngModel)]="groupInfo.description" name="description">
+            </mat-form-field>
       </div>
       <div class="form-group">
-          <label for="picture-input">Picture</label>
-          <input type="string" id="picture-input" [(ngModel)]="groupInfo.picture" class="form-control" name="picture"/>
+          <mat-form-field>
+              <input matInput type="text" placeholder="Picture" [(ngModel)]="groupInfo.picture" name="picture">
+            </mat-form-field>
       </div>
-      <button type="button" class="btn btn-primary" (click)="addOrUpdateGroupRecord($event);">Save</button>
+      <div class="tbl2">  
+          <button type="button" class="btn btn-info" (click)="addOrUpdateGroupRecord($event)">Save</button>  
+      </div>
     </form>
 
-
-
-
-
-
-    <!-- <form [formGroup]="groupForm"(ngSubmit)="addOrUpdateGroupRecord(groupForm.value)">
-      <table>  
-        <tr>  
-          <td class="tbl1">  
-            <mat-form-field class="demo-full-width">  
-              <input formControlName="Name" matTooltip="Enter group title" matInput placeholder="Title">  
-            </mat-form-field>  
-            <mat-error>  
-              <span *ngIf="!groupForm.get('Name').value && groupForm.get('Name').touched"></span>  
-            </mat-error>  
-          </td>  
-          <td class="tbl1">  
-            <mat-form-field class="demo-full-width">  
-              <input matInput [matDatepicker]="picker"matTooltip="Choose date" formControlName="Date"placeholder="Date">  
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>  
-              <mat-datepicker #picker></mat-datepicker>  
-            </mat-form-field>  
-            <mat-error>  
-              <span *ngIf="!groupForm.get('Date').value && groupForm.get('Date').touched"></span>  
-            </mat-error>  
-          </td>  
-          <td class="tbl1">  
-            <mat-form-field class="demo-full-width">  
-              <input formControlName="LanguageId" matTooltip="Enter language" matInput placeholder="Language">  
-            </mat-form-field>  
-            <mat-error>  
-              <span *ngIf="!groupForm.get('LanguageId').value && groupForm.get('LanguageId').touched"></span>  
-            </mat-error>  
-          </td>  
-        </tr>  
-        <tr>   
-          <td class="tbl1">  
-            <mat-form-field class="demo-full-width">  
-              <input matTooltip="Enter description"formControlName="Description" matInput placeholder="Description">  
-            </mat-form-field>  
-            <mat-error>  
-              <span *ngIf="!groupForm.get('Description').value && groupForm.get('Description').touched"></span>  
-            </mat-error>  
-          </td>  
-          <td class="tbl1">  
-            <mat-form-field class="demo-full-width">  
-              <input formControlName="Picture" matTooltip="Enter picture" matInput placeholder="Picture">  
-            </mat-form-field>  
-            <mat-error>  
-              <span *ngIf="!groupForm.get('Picture').value && groupForm.get('Picture').touched"></span>  
-            </mat-error>  
-          </td>  
-        </tr>  
-        <tr>  
-          <td></td>  
-          <td  class="content-center">  
-            <button type="submit" mat-raised-button color="accent"matTooltip="Click Submit Button"[disabled]="!groupForm.valid">Submit</button>      
-            <button type="reset" mat-raised-button color="accent"matTooltip="Click Reset Button" (click)="resetForm()">Reset</button>  
-          </td>  
-          <td>  
-            <p *ngIf="dataSaved" style="color:rgb(0, 128, 0);font-size:20px;font-weight:bold" Class="success" align="left">  
-              {{massage}}  
-            </p>  
-          </td>  
-        </tr>  
-      </table>
-    </form> 
-   </div> -->
+      <!-- <div class="form-group">      
+          <label for="date-input">Date:</label>
+          <input type="date" id="date-input" [ngModel]="groupInfo.date | date: 'yyyy-MM-dd'" (ngModelChange)="updateDate($event)" class="form-control" name="date"/>
+      </div> -->
+      <!-- <label for="name-input">Name</label>
+      <input type="string" id="name-input" [(ngModel)]="groupInfo.name" class="form-control" name="name"/> -->
+            <!-- <div class="form-group">
+          <label for="description-input">Description</label>
+          <input type="string" id="description-input" [(ngModel)]="groupInfo.description" class="form-control" name="description"/>
+      </div> -->
+            <!-- <div class="form-group">
+          <label for="picture-input">Picture</label>
+          <input type="string" id="picture-input" [(ngModel)]="groupInfo.picture" class="form-control" name="picture"/>
+      </div> -->
