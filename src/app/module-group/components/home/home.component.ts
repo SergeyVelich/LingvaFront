@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { GroupService } from '../services/group.service'
+import { GroupService } from '../../services/group.service'
 import * as _ from 'lodash';
-import { Group } from '../models/group';
+import { Group } from '../../models/group';
 
 @Component({
   selector: 'app-home',

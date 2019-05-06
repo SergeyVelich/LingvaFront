@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { Group } from '../models/group';
-import { Language } from '../models/language';
-import { LanguageService } from '../services/language.service';
+import { Group } from '../../models/group';
+import { Language } from '../../models/language';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-add-or-update-group',

@@ -13,11 +13,11 @@ import { MatRadioModule } from '@angular/material/radio';
 import { AppRoutingModule } from './app-routing.module';  
 import { AppComponent } from './app.component';
 
-import { GroupService } from './services/group.service';
-import { LanguageService } from './services/language.service';
-import { AddOrUpdateGroupComponent } from './add-or-update-group/add-or-update-group.component';
-import { GridGroupComponent } from './grid-group/grid-group.component';
-import { HomeComponent } from './home/home.component';  
+import { GroupService } from './module-group/services/group.service';
+import { LanguageService } from './module-group/services/language.service';
+import { AddOrUpdateGroupComponent } from './module-group/components/add-or-update-group/add-or-update-group.component';
+import { GridGroupComponent } from './module-group/components/grid-group/grid-group.component';
+import { HomeComponent } from './module-group/components/home/home.component';  
 
 import { DecimalPipe } from '@angular/common';
 import { DatePipe } from '@angular/common';
