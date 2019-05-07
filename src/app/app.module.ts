@@ -1,78 +1,43 @@
-import { RouterModule, Routes } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';  
-import { NgModule } from '@angular/core';    
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';  
-import { HttpClientModule, HttpClient } from '@angular/common/http';  
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';     
+import { HttpClientModule } from '@angular/common/http';  
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {  
-  MatButtonModule, MatMenuModule, MatDatepickerModule,MatNativeDateModule , MatIconModule, MatCardModule, MatSidenavModule,MatFormFieldModule,  
-  MatInputModule, MatTooltipModule, MatToolbarModule, MatSelectModule, MatPaginatorModule, MatProgressSpinnerModule, MatSortModule, MatTableModule  
-} from '@angular/material';  
-import { MatRadioModule } from '@angular/material/radio';   
   
 import { AppRoutingModule } from './app-routing.module';  
 import { AppComponent } from './app.component';
 
-import { GroupService } from './module-group/services/group.service';
-import { LanguageService } from './module-group/services/language.service';
-import { AddOrUpdateGroupComponent } from './module-group/components/add-or-update-group/add-or-update-group.component';
-import { GridGroupComponent } from './module-group/components/grid-group/grid-group.component';
-import { HomeComponent } from './module-group/components/home/home.component';  
+/* Module Imports */
+import { ShellModule } from './module-shell/shell.module';
+import { HomeModule }  from './module-home/home.module';
+import { AccountModule }  from './module-account/account.module';
+import { GroupModule }  from './module-group/group.module';
+import { TopSecretModule } from './module-top-secret/top-secret.module';
+import { SharedModule }   from './module-shared/shared.module';
 
-import { DecimalPipe } from '@angular/common';
-import { DatePipe } from '@angular/common';
-
-const appRoutes: Routes = [
-  { path: '', component: HomeComponent }
- 
-];
-
-const modules = [
-  MatButtonModule,  
-  MatMenuModule,  
-  MatDatepickerModule,  
-  MatNativeDateModule,  
-  MatIconModule,  
-  MatRadioModule,  
-  MatCardModule,  
-  MatSidenavModule,  
-  MatFormFieldModule,  
-  MatInputModule,  
-  MatTooltipModule,  
-  MatToolbarModule,
-  MatSelectModule,
-  MatTableModule,
-  MatPaginatorModule,
-  MatSortModule,
-  MatProgressSpinnerModule 
-];
+// used to create fake backend
+import { FakeBackendProvider } from './module-shared/mocks/fake-backend-interceptor';
+import { ConfigService } from './module-shared/services/config.service';
 
 @NgModule({  
   declarations: [  
-    AppComponent,  
-    HomeComponent, AddOrUpdateGroupComponent, GridGroupComponent  
+    AppComponent
   ],  
   imports: [  
-    BrowserModule,  
-    FormsModule,  
-    ReactiveFormsModule,  
+    BrowserModule,    
     HttpClientModule,  
-    BrowserAnimationsModule,   
-    AppRoutingModule,
-    RouterModule.forRoot(appRoutes), 
-    modules,
+    BrowserAnimationsModule,
+    ShellModule,
+    HomeModule,
+    AccountModule,
+    SharedModule,
+    GroupModule,
+    TopSecretModule,    
+    AppRoutingModule  
   ],  
-  providers: [HttpClientModule, MatDatepickerModule, GroupService, LanguageService],  
+  providers: [
+    HttpClientModule, 
+    ConfigService,
+    FakeBackendProvider],  
   bootstrap: [AppComponent]  
 })  
 export class AppModule { } 
-
-// @NgModule({
-//   imports: [  
-//     modules 
-//   ],
-//   exports: [
-//     modules,
-//   ],
-// })
-// export class MaterialModule {};

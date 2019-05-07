@@ -4,11 +4,11 @@ import * as _ from 'lodash';
 import { Group } from '../../models/group';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-group',
+  templateUrl: './group.component.html',
+  styleUrls: ['./group.component.css']
 })
-export class HomeComponent implements OnInit {
+export class GroupComponent implements OnInit {
   public groupData: Array<any>;
   public currentGroup: any;
 
