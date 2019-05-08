@@ -30,18 +30,16 @@ export class AuthService extends BaseService  {
   }
 
   login() {
-    debugger; 
     return this.manager.signinRedirect();   
   }
 
   async completeAuthentication() {
-      debugger;
       this.user = await this.manager.signinRedirectCallback();
       this._authNavStatusSource.next(this.isAuthenticated());      
   }  
 
   register(userRegistration: any) {    
-    return this.http.post(this.configService.authApiURI + '/account', userRegistration).pipe(catchError(this.handleError));
+    return this.http.post(this.configService.authApiURI + '/account/register', userRegistration).pipe(catchError(this.handleError));
   }
 
   isAuthenticated(): boolean {
@@ -57,7 +55,6 @@ export class AuthService extends BaseService  {
   }
 
   setAuthorizationHeaderValue(){
-    debugger;
     if (this.user != null && !this.user.expired){
       this.configService.authorizationHeaderValue = `${this.user.token_type} ${this.user.access_token}`;
     }
@@ -67,7 +64,6 @@ export class AuthService extends BaseService  {
   }
 
   signout() {
-    debugger;
     this.manager.signoutRedirect();
   }
 }

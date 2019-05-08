@@ -25,7 +25,7 @@ export class GroupService extends BaseService {
   }
 
   getAll(): Observable<Group[]> {  
-    return this.http.get<Group[]>(this.configService.resourceApiURI);  
+    return this.http.get<Group[]>(this.configService.resourceApiURI + '/group');  
   }  
   getById(groupId: string): Observable<Group> {  
     return this.http.get<Group>(this.configService.resourceApiURI + '/group/get?id=' + groupId, {headers: this.headers}).pipe(catchError(this.handleError));  

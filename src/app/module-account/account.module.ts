@@ -10,11 +10,14 @@ import { AccountRoutingModule } from './account.routing-module';
 import { AuthGuard } from './services/auth/auth.guard';
 import { AuthService }  from './services/auth/auth.service';
 
+import { CompareValidatorDirective } from '../module-shared/directives/compare-validator.directive';
+
 @NgModule({
   declarations: [
     LoginComponent, 
     RegisterComponent,
     AuthCallbackComponent,
+    CompareValidatorDirective,
   ],
   imports: [
     CommonModule,

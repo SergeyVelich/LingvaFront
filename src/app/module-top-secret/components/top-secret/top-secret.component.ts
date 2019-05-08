@@ -15,11 +15,9 @@ export class TopSecretComponent implements OnInit {
   busy: boolean;
 
   constructor(private authService: AuthService, private topSecretService: TopSecretService, private spinner: NgxSpinnerService) {
-    debugger;
   }
 
-  ngOnInit() { 
-    debugger;   
+  ngOnInit() {   
     this.busy = true;
     this.spinner.show();
     this.topSecretService.fetchTopSecretData(this.authService.authorizationHeaderValue)

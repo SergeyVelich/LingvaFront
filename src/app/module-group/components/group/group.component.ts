@@ -13,6 +13,7 @@ export class GroupComponent implements OnInit {
   public currentGroup: any;
 
   constructor (private groupService: GroupService) {
+    debugger;
     groupService.getAll().subscribe((response: any) => this.groupData = response);
     this.currentGroup = this.setInitialValuesForGroupData();
   }
