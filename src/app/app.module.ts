@@ -12,6 +12,7 @@ import { AccountModule }  from './module-account/account.module';
 import { GroupModule }  from './module-group/group.module';
 import { TopSecretModule } from './module-top-secret/top-secret.module';
 import { SharedModule }   from './module-shared/shared.module';
+import { TestModule }   from './module-test/test.module';
 
 @NgModule({  
   declarations: [  
@@ -22,6 +23,7 @@ import { SharedModule }   from './module-shared/shared.module';
     BrowserAnimationsModule,
     ShellModule,
     SharedModule,
+    TestModule,
     HomeModule,
     AccountModule, 
     GroupModule,

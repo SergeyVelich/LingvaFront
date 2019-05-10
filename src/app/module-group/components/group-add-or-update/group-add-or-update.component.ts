@@ -4,11 +4,11 @@ import { Language } from '../../models/language';
 import { LanguageService } from '../../services/language.service';
 
 @Component({
-  selector: 'app-add-or-update-group',
-  templateUrl: './add-or-update-group.component.html',
-  styleUrls: ['./add-or-update-group.component.css']
+  selector: 'app-group-add-or-update',
+  templateUrl: './group-add-or-update.component.html',
+  styleUrls: ['./group-add-or-update.component.css']
 })
-export class AddOrUpdateGroupComponent implements OnInit {
+export class GroupAddOrUpdateComponent implements OnInit {
   @Output() groupCreated = new EventEmitter<any>();
   @Input() groupInfo: Group;
 

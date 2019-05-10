@@ -9,8 +9,8 @@ import { GroupRoutingModule } from './group-routing.module';
 import { ConfigService } from '../module-shared/services/config.service';
 import { GroupService } from './services/group.service';
 import { LanguageService } from './services/language.service';
-import { AddOrUpdateGroupComponent } from './components/add-or-update-group/add-or-update-group.component';
-import { GridGroupComponent } from './components/grid-group/grid-group.component';
+import { GroupAddOrUpdateComponent } from './components/group-add-or-update/group-add-or-update.component';
+import { GroupGridComponent } from './components/group-grid/group-grid.component';
 
 import {  
   MatButtonModule, MatMenuModule, MatDatepickerModule,MatNativeDateModule , MatIconModule, MatCardModule, MatSidenavModule,MatFormFieldModule,  
@@ -41,8 +41,8 @@ const modules = [
 @NgModule({
   declarations: [
     GroupComponent,
-    AddOrUpdateGroupComponent, 
-    GridGroupComponent 
+    GroupAddOrUpdateComponent, 
+    GroupGridComponent 
   ],
   imports: [
     HttpClientModule,

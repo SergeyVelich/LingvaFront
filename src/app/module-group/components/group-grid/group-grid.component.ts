@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-grid-group',
-  templateUrl: './grid-group.component.html',
-  styleUrls: ['./grid-group.component.css']
+  selector: 'app-group-grid',
+  templateUrl: './group-grid.component.html',
+  styleUrls: ['./group-grid.component.css']
 })
 
-export class GridGroupComponent implements OnInit {
+export class GroupGridComponent implements OnInit {
   @Input() groupData: Array<any>;
   @Output() removeClicked = new EventEmitter<any>();
   @Output() createClicked = new EventEmitter<any>();

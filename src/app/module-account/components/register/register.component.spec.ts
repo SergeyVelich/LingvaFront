@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthService } from '../../services/auth/auth.service';
 import { By } from '@angular/platform-browser';
-import { MockAuthService } from '../../../module-shared/mocks/mock-auth.service';
+import { MockAuthService } from '../../../module-test/mocks/mock-auth.service';
 import { FormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DebugElement } from '@angular/core'; 

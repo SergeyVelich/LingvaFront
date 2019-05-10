@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddOrUpdateGroupComponent } from './add-or-update-group.component';
+import { GroupAddOrUpdateComponent } from './group-add-or-update.component';
 
-describe('AddOrUpdateGroupComponent', () => {
-  let component: AddOrUpdateGroupComponent;
-  let fixture: ComponentFixture<AddOrUpdateGroupComponent>;
+describe('GroupAddOrUpdateComponent', () => {
+  let component: GroupAddOrUpdateComponent;
+  let fixture: ComponentFixture<GroupAddOrUpdateComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddOrUpdateGroupComponent ]
+      declarations: [ GroupAddOrUpdateComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddOrUpdateGroupComponent);
+    fixture = TestBed.createComponent(GroupAddOrUpdateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

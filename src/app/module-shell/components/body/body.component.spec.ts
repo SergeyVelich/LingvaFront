@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BodyComponent } from './body.component';
 import { HeaderComponent } from '../header/header.component';
 import { AuthService } from '../../../module-account/services/auth/auth.service';
-import { MockAuthService } from '../../../module-shared/mocks/mock-auth.service';
+import { MockAuthService } from '../../../module-test/mocks/mock-auth.service';
 
 describe('BodyComponent', () => {
   let component: BodyComponent;

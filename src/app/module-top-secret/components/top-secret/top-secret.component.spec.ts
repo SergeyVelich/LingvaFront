@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgxSpinnerModule } from 'ngx-spinner'; 
 import { AuthService } from '../../module-account/services/auth/auth.service';
-import { MockAuthService } from '../../module-shared/mocks/mock-auth.service';
+import { MockAuthService } from '../../module-test/mocks/mock-auth.service';
 import { TopSecretService } from '../services/top-secret.service';
-import { MockTopSecretService } from '../../module-shared/mocks/mock-index.service';
+import { MockTopSecretService } from '../../module-test/mocks/mock-index.service';
 
 import { TopSecretComponent } from './top-secret.component';
 
