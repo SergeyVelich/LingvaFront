@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AuthCallbackComponent implements OnInit {
 
-  error: boolean;
+   error: boolean;
 
   constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {}
 
@@ -20,8 +20,8 @@ export class AuthCallbackComponent implements OnInit {
        this.error=true; 
        return;    
      }
-    
-    await this.authService.completeAuthentication();      
-    this.router.navigate(['/home']);    
+    await this.authService.completeAuthentication();
+    this.router.navigate([localStorage.getItem('returnUrl')]);
+    localStorage.removeItem('returnUrl')    
   }
 }

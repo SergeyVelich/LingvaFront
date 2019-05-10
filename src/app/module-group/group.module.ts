@@ -2,9 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { GroupComponent } from './components/group/group.component';
 import { GroupRoutingModule } from './group-routing.module';
+import { ConfigService } from '../module-shared/services/config.service';
 import { GroupService } from './services/group.service';
 import { LanguageService } from './services/language.service';
 import { AddOrUpdateGroupComponent } from './components/add-or-update-group/add-or-update-group.component';
@@ -43,6 +45,7 @@ const modules = [
     GridGroupComponent 
   ],
   imports: [
+    HttpClientModule,
     CommonModule,
     RouterModule,
     GroupRoutingModule,
@@ -51,6 +54,8 @@ const modules = [
     modules
   ],
   providers: [
+    HttpClientModule,
+    ConfigService,
     GroupService, 
     LanguageService,
     MatDatepickerModule 

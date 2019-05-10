@@ -20,7 +20,7 @@ export class GroupService extends BaseService {
     
     this.headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': this.configService.authorizationHeaderValue,
+      // 'Authorization': this.configService.authorizationHeaderValue,
     });
   }
 

@@ -19,7 +19,7 @@ export class AuthService extends BaseService  {
 
   private manager = new UserManager(getClientSettings());
   private user: User | null;
-
+  
   constructor(private http: HttpClient, private configService: ConfigService) { 
     super();     
     
@@ -29,7 +29,8 @@ export class AuthService extends BaseService  {
     });
   }
 
-  login() {
+  login(returnUrl: string) {
+    localStorage.setItem('returnUrl', returnUrl);
     return this.manager.signinRedirect();   
   }
 
@@ -54,7 +55,7 @@ export class AuthService extends BaseService  {
     return this.user != null ? this.user.profile.name : '';
   }
 
-  setAuthorizationHeaderValue(){
+  setAuthorizationHeaderValue(){//??
     if (this.user != null && !this.user.expired){
       this.configService.authorizationHeaderValue = `${this.user.token_type} ${this.user.access_token}`;
     }

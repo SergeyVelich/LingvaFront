@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { finalize } from 'rxjs/operators'
 import { AuthService } from '../../services/auth/auth.service';
-import { UserRegistration }    from '../../../module-shared/models/user.registration';
+import { UserRegistration }    from '../../models/user.registration';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +13,7 @@ export class RegisterComponent implements OnInit {
 
   success: boolean;
   error: string;
-  userRegistration: UserRegistration = { name: '', email: '', password: '', passwordConfirm: ''};
+  userRegistration: UserRegistration = new UserRegistration('', '', '');
   submitted: boolean = false;
 
   constructor(private authService: AuthService, private spinner: NgxSpinnerService) {

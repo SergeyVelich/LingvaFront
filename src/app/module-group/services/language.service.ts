@@ -20,11 +20,12 @@ export class LanguageService extends BaseService {
 
     this.headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': this.configService.authorizationHeaderValue,
+      // 'Authorization': this.configService.authorizationHeaderValue,
     });
   }
 
-  getAll(): Observable<Language[]> {  
+  getAll(): Observable<Language[]> { 
+    debugger; 
     return this.http.get<Language[]>(this.configService.resourceApiURI + '/info/languages', {headers: this.headers}).pipe(catchError(this.handleError));  
   } 
 }  
