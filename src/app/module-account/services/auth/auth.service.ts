@@ -30,6 +30,7 @@ export class AuthService extends BaseService  {
   }
 
   login(returnUrl: string) {
+    debugger;
     localStorage.setItem('returnUrl', returnUrl);
     return this.manager.signinRedirect();   
   }
@@ -65,18 +66,19 @@ export class AuthService extends BaseService  {
   }
 
   signout() {
+    debugger;
     this.manager.signoutRedirect();
   }
 }
 
 export function getClientSettings(): UserManagerSettings {
   return {
-      authority: 'http://localhost:6050',
       client_id: 'angular_client',
+      authority: 'http://localhost:6050',     
       redirect_uri: 'http://localhost:4200/auth-callback',
       post_logout_redirect_uri: 'http://localhost:4200/',
       response_type:"id_token token",
-      scope:"openid profile email api.read",
+      scope:"openid profile resourceapi",
       filterProtocolClaims: true,
       loadUserInfo: true,
       automaticSilentRenew: true,

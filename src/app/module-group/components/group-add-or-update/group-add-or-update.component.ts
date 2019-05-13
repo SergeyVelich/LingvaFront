@@ -18,7 +18,6 @@ export class GroupAddOrUpdateComponent implements OnInit {
 
   constructor(private languageService: LanguageService) {
     this.clearGroupInfo();
-    debugger;
     console.log(this.groupInfo.date);
   }
   ngOnInit() {
@@ -27,7 +26,6 @@ export class GroupAddOrUpdateComponent implements OnInit {
       this.languages = response;
       console.log(this.languages);    
     });
-    debugger;
   }
 
   private clearGroupInfo = function() {

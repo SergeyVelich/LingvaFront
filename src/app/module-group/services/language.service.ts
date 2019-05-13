@@ -25,7 +25,6 @@ export class LanguageService extends BaseService {
   }
 
   getAll(): Observable<Language[]> { 
-    debugger; 
     return this.http.get<Language[]>(this.configService.resourceApiURI + '/info/languages', {headers: this.headers}).pipe(catchError(this.handleError));  
   } 
 }  

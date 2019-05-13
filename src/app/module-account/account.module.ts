@@ -11,6 +11,7 @@ import { AuthGuard } from './services/auth/auth.guard';
 import { AuthService }  from './services/auth/auth.service';
 
 import { CompareValidatorDirective } from '../module-shared/directives/compare-validator.directive';
+import { PasswordValidatorDirective } from '../module-shared/directives/password-validator.directive';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { CompareValidatorDirective } from '../module-shared/directives/compare-v
     RegisterComponent,
     AuthCallbackComponent,
     CompareValidatorDirective,
+    PasswordValidatorDirective,
   ],
   imports: [
     CommonModule,

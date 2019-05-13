@@ -2,12 +2,15 @@
     <h2></h2>
     <form class = group-add-or-update-form>
       <div class="form-group">
-          <mat-form-field>
+          <mat-form-field class = group-add-or-update-form-field>
               <input matInput type="text" placeholder="Name" [(ngModel)]="groupInfo.name" name="name">
+              <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="groupInfo.name=''">
+                <mat-icon>close</mat-icon>
+              </button>
             </mat-form-field>
       </div>
       <div class="form-group">
-        <mat-form-field>
+        <mat-form-field class = group-add-or-update-form-field>
           <mat-label>Date</mat-label>
           <input matInput [ngModel]="groupInfo.date | date: 'yyyy-MM-dd'" [matDatepicker]="from" (ngModelChange)="updateDate($event)" placeholder="Choose a date" name="date">        
           <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
@@ -15,7 +18,7 @@
         </mat-form-field>
       </div>
       <div class="form-group">
-          <mat-form-field>
+          <mat-form-field class = group-add-or-update-form-field>
               <mat-label>Language</mat-label>
               <mat-select [(ngModel)]="groupInfo.languageId" name="languageId">
                 <mat-option *ngFor="let language of languages" [value]="language.id">{{language.name}}</mat-option>
@@ -23,13 +26,19 @@
             </mat-form-field>
       </div>
       <div class="form-group">
-          <mat-form-field>
+          <mat-form-field class = group-add-or-update-form-field>
               <input matInput type="text" placeholder="Description" [(ngModel)]="groupInfo.description" name="description">
+              <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="groupInfo.description=''">
+                <mat-icon>close</mat-icon>
+              </button>
             </mat-form-field>
       </div>
       <div class="form-group">
-          <mat-form-field>
+          <mat-form-field class = group-add-or-update-form-field>
               <input matInput type="text" placeholder="Picture" [(ngModel)]="groupInfo.picture" name="picture">
+              <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="groupInfo.picture=''">
+                <mat-icon>close</mat-icon>
+              </button>
             </mat-form-field>
       </div>
       <div class="tbl2">  

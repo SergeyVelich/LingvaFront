@@ -6,6 +6,10 @@
 import { NgModule }           from '@angular/core';
 import { CommonModule }       from '@angular/common';
 
+import { FakeBackendInterceptor } from './mocks/fake-backend-interceptor';
+import { MockAuthService } from './mocks/mock-auth.service';
+import { MockTopSecretService } from './mocks/mock-top-secret.service';
+
 //https://stackoverflow.com/questions/41433766/directive-doesnt-work-in-a-sub-module
 //https://stackoverflow.com/questions/45032043/uncaught-error-unexpected-module-formsmodule-declared-by-the-module-appmodul/45032201
 
@@ -13,6 +17,10 @@ import { CommonModule }       from '@angular/common';
   imports:      [CommonModule],
   declarations: [],
   exports:      [],
-  providers:    []
+  providers:    [
+    FakeBackendInterceptor,
+    MockAuthService,
+    MockTopSecretService,
+  ]
 })
 export class TestModule { }

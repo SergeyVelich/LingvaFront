@@ -21,9 +21,7 @@ export class CompareValidatorDirective implements Validator {
       });
     }
 
-    const t = controlToCompare.value !== c.value;
-    const v = t ? { 'compare': true } : null;
-    return v;
+    return controlToCompare.value !== c.value ? { 'compare': true } : null;
   }
 
 }
