@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 import { Group } from 'src/app/module-group/models/group';  
 import { BaseService } from "../../module-shared/services/base.service";
 import { ConfigService } from '../../module-shared/services/config.service';
+import { HttpParamsOptions } from '@angular/common/http/src/params';
 
  @Injectable({  
   providedIn: 'root'  
@@ -13,30 +14,53 @@ import { ConfigService } from '../../module-shared/services/config.service';
   
 export class GroupService extends BaseService {  
   
-  private headers: HttpHeaders;
-    
   constructor(private http: HttpClient, private configService: ConfigService) {
     super();
-    
-    this.headers = new HttpHeaders({
-      'Content-Type': 'application/json; charset=utf-8',
-      // 'Authorization': this.configService.authorizationHeaderValue,
-    });
   }
 
-  getAll(): Observable<Group[]> {  
-    return this.http.get<Group[]>(this.configService.resourceApiURI + '/group');  
+  getAll(token: string): Observable<Group[]> { 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': token,
+      })
+    };
+    return this.http.get<Group[]>(this.configService.resourceApiURI + '/group', httpOptions).pipe(catchError(this.handleError));  
   }  
-  getById(groupId: string): Observable<Group> {  
-    return this.http.get<Group>(this.configService.resourceApiURI + '/group/get?id=' + groupId, {headers: this.headers}).pipe(catchError(this.handleError));  
+  getById(groupId: string, token: string): Observable<Group> { 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': token,
+      })
+    }; 
+    return this.http.get<Group>(this.configService.resourceApiURI + '/group/get?id=' + groupId, httpOptions).pipe(catchError(this.handleError));  
   }  
-  create(group: Group): Observable<Group> {  
-    return this.http.post<Group>(this.configService.resourceApiURI + '/group/create', group, {headers: this.headers}).pipe(catchError(this.handleError));  
+  create(group: Group, token: string): Observable<Group> { 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': token,
+      })
+    }; 
+    return this.http.post<Group>(this.configService.resourceApiURI + '/group/create', group, httpOptions).pipe(catchError(this.handleError));  
   }  
-  update(group: Group): Observable<Group> {   
-    return this.http.put<Group>(this.configService.resourceApiURI + '/group/update', group, {headers: this.headers}).pipe(catchError(this.handleError));  
+  update(group: Group, token: string): Observable<Group> { 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': token,
+      })
+    };  
+    return this.http.put<Group>(this.configService.resourceApiURI + '/group/update', group, httpOptions).pipe(catchError(this.handleError));  
   }  
-  remove(group: Group): Observable<number> {  
-    return this.http.delete<number>(this.configService.resourceApiURI + '/group/delete?id=' + group.id, {headers: this.headers}).pipe(catchError(this.handleError));  
+  remove(group: Group, token: string): Observable<number> {  
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': token,
+      })
+    };
+    return this.http.delete<number>(this.configService.resourceApiURI + '/group/delete?id=' + group.id, httpOptions).pipe(catchError(this.handleError));  
   }  
 }  

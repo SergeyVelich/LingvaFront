@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Group } from '../../models/group';
 import { Language } from '../../models/language';
 import { LanguageService } from '../../services/language.service';
+import { AuthService } from '../../../module-account/services/auth/auth.service';
 
 @Component({
   selector: 'app-group-add-or-update',
@@ -16,12 +17,12 @@ export class GroupAddOrUpdateComponent implements OnInit {
 
   public buttonText = 'Save';
 
-  constructor(private languageService: LanguageService) {
+  constructor(private languageService: LanguageService, private authService: AuthService) {
     this.clearGroupInfo();
     console.log(this.groupInfo.date);
   }
   ngOnInit() {
-    this.languageService.getAll().subscribe((response: any) => {
+    this.languageService.getAll(this.authService.authorizationHeaderValue).subscribe((response: any) => {
       console.log(response);
       this.languages = response;
       console.log(this.languages);    

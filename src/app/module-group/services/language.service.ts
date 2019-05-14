@@ -24,7 +24,13 @@ export class LanguageService extends BaseService {
     });
   }
 
-  getAll(): Observable<Language[]> { 
-    return this.http.get<Language[]>(this.configService.resourceApiURI + '/info/languages', {headers: this.headers}).pipe(catchError(this.handleError));  
+  getAll(token: string): Observable<Language[]> { 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': token,
+      })
+    }; 
+    return this.http.get<Language[]>(this.configService.resourceApiURI + '/info/languages', httpOptions).pipe(catchError(this.handleError));  
   } 
 }  

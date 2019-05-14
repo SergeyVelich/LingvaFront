@@ -30,7 +30,6 @@ export class AuthService extends BaseService  {
   }
 
   login(returnUrl: string) {
-    debugger;
     localStorage.setItem('returnUrl', returnUrl);
     return this.manager.signinRedirect();   
   }
@@ -78,7 +77,7 @@ export function getClientSettings(): UserManagerSettings {
       redirect_uri: 'http://localhost:4200/auth-callback',
       post_logout_redirect_uri: 'http://localhost:4200/',
       response_type:"id_token token",
-      scope:"openid profile resourceapi",
+      scope:"openid profile email resourceapi",
       filterProtocolClaims: true,
       loadUserInfo: true,
       automaticSilentRenew: true,

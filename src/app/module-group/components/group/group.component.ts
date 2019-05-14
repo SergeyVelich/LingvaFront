@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GroupService } from '../../services/group.service'
 import * as _ from 'lodash';
 import { Group } from '../../models/group';
+import { AuthService } from '../../../module-account/services/auth/auth.service';
 
 @Component({
   selector: 'app-group',
@@ -12,8 +13,9 @@ export class GroupComponent implements OnInit {
   public groupData: Array<any>;
   public currentGroup: any;
 
-  constructor (private groupService: GroupService) {
-    groupService.getAll().subscribe((response: any) => this.groupData = response);
+  constructor (private groupService: GroupService, private authService: AuthService) {
+    debugger;
+    groupService.getAll(this.authService.authorizationHeaderValue).subscribe((response: any) => this.groupData = response);
     this.currentGroup = this.setInitialValuesForGroupData();
   }
 
@@ -37,11 +39,11 @@ public createOrUpdateGroup = function(group: any) {
 
     if (groupWithId) {
       const updateIndex = _.findIndex(this.groupData, {id: groupWithId.id});
-      this.groupService.update(group).subscribe(
+      this.groupService.update(group, this.authService.authorizationHeaderValue).subscribe(
         () => this.groupData.splice(updateIndex, 1, group)
       );
     } else {
-      this.groupService.create(group).subscribe(
+      this.groupService.create(group, this.authService.authorizationHeaderValue).subscribe(
         () => this.groupData.push(group)
       );
     }
@@ -59,7 +61,7 @@ public createOrUpdateGroup = function(group: any) {
 
   public removeClicked(record) {
     const deleteIndex = _.findIndex(this.groupData, {id: record.id});
-    this.groupService.remove(record).subscribe(
+    this.groupService.remove(record, this.authService.authorizationHeaderValue).subscribe(
       () => this.groupData.splice(deleteIndex, 1)
     );
   }
