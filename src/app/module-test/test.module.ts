@@ -15,8 +15,6 @@ import { MockTopSecretService } from './mocks/mock-top-secret.service';
 
 @NgModule({
   imports:      [CommonModule],
-  declarations: [],
-  exports:      [],
   providers:    [
     FakeBackendInterceptor,
     MockAuthService,

@@ -3,7 +3,6 @@ import { AuthService } from '../../services/auth/auth.service';
 import { By } from '@angular/platform-browser';
 import { MockAuthService } from '../../../module-test/mocks/mock-auth.service';
 import { FormsModule } from '@angular/forms';
-import { NgxSpinnerModule } from 'ngx-spinner';
 import { DebugElement } from '@angular/core'; 
 
 import { RegisterComponent } from './register.component';
@@ -14,7 +13,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule,NgxSpinnerModule],
+      imports: [FormsModule],
       declarations: [RegisterComponent],
       providers: [
         {provide: AuthService, useClass: MockAuthService}

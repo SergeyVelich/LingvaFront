@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
-import { Body } from '../module-shell/services/body/body.service';
+import { Body } from '../module-core/services/body/body.service';
 
 const routes: Routes = [
   Body.childRoutes([
@@ -14,6 +14,5 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: []
 })
 export class HomeRoutingModule { }

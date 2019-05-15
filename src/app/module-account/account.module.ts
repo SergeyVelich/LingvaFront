@@ -1,39 +1,32 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule }   from '@angular/forms';
+
+import { SharedModule } from '../module-shared/shared.module';
+
+import { AccountRoutingModule } from './account.routing-module';
+
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthCallbackComponent } from './components/auth-callback/auth-callback.component';
-import { SharedModule }   from '../module-shared/shared.module';
 
-import { AccountRoutingModule } from './account.routing-module';
 import { AuthGuard } from './services/auth/auth.guard';
-import { AuthService }  from './services/auth/auth.service';
-
-import { CompareValidatorDirective } from '../module-shared/directives/compare-validator.directive';
-import { PasswordValidatorDirective } from '../module-shared/directives/password-validator.directive';
 
 @NgModule({
   declarations: [
-    LoginComponent, 
+    LoginComponent,
     RegisterComponent,
     AuthCallbackComponent,
-    CompareValidatorDirective,
-    PasswordValidatorDirective,
   ],
   imports: [
-    CommonModule,
-    FormsModule,
     AccountRoutingModule,
-    SharedModule  
+    SharedModule
   ],
   providers: [
-    AuthService,
-    AuthGuard    
+    AuthGuard
   ]
 })
-export class AccountModule { 
+export class AccountModule {
   constructor(@Optional() @SkipSelf() parentModule: AccountModule) {
+    debugger;
     // Import guard
     if (parentModule) {
       throw new Error(`${parentModule} has already been loaded. Import Core module in the AppModule only.`);
