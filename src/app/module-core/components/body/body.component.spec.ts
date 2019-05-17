@@ -15,11 +15,11 @@ describe('BodyComponent', () => {
         RouterTestingModule
       ],
       providers: [
-        {provide: AuthService, useClass: MockAuthService}
+        { provide: AuthService, useClass: MockAuthService }
       ],
-      declarations: [ HeaderComponent, BodyComponent ]
+      declarations: [HeaderComponent, BodyComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -3,7 +3,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { By } from '@angular/platform-browser';
 import { MockAuthService } from '../../../module-test/mocks/mock-auth.service';
 import { FormsModule } from '@angular/forms';
-import { DebugElement } from '@angular/core'; 
+import { DebugElement } from '@angular/core';
 
 import { RegisterComponent } from './register.component';
 
@@ -16,10 +16,10 @@ describe('RegisterComponent', () => {
       imports: [FormsModule],
       declarations: [RegisterComponent],
       providers: [
-        {provide: AuthService, useClass: MockAuthService}
+        { provide: AuthService, useClass: MockAuthService }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -32,7 +32,7 @@ describe('RegisterComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have disabled submit button by default', ()=>{  
+  it('should have disabled submit button by default', () => {
 
     fixture.whenStable().then(() => {
       fixture.detectChanges(); // need another change detection pass after initialization
@@ -40,18 +40,18 @@ describe('RegisterComponent', () => {
       expect(submitEL.nativeElement.disabled).toBe(true);
     });
   });
-  
+
   it('should show invalid email tip', async(() => {
 
-  fixture.whenStable().then(() => {
+    fixture.whenStable().then(() => {
       let input = fixture.debugElement.query(By.css('#email'));
       let inputElement = input.nativeElement;
-       //set input value
-       inputElement.value = 'test value';
-       inputElement.dispatchEvent(new Event('input'));     
-       expect(component.userRegistration.email).toBe('test value');
-       var validationError = fixture.debugElement.query(By.css('.text-danger'));
-       expect(validationError).toBeTruthy();
-    }); 
-  })); 
+      //set input value
+      inputElement.value = 'test value';
+      inputElement.dispatchEvent(new Event('input'));
+      expect(component.userRegistration.email).toBe('test value');
+      var validationError = fixture.debugElement.query(By.css('.text-danger'));
+      expect(validationError).toBeTruthy();
+    });
+  }));
 });

@@ -1,10 +1,10 @@
 import { throwError } from 'rxjs';
 
-export abstract class BaseService {  
-    
-    constructor() { }
+export abstract class BaseService {
 
-    protected handleError(error: any) {
+  constructor() { }
+
+  protected handleError(error: any) {
 
     var applicationError = error.headers.get('Application-Error');
 
@@ -12,14 +12,14 @@ export abstract class BaseService {
     if (applicationError) {
       return throwError(applicationError);
     }
-    
+
     var modelStateErrors: string = '';
 
-      // for now just concatenate the error descriptions, alternative we could simply pass the entire error response upstream
-      for (var key in error.error) {
-        if (error.error[key]) modelStateErrors += error.error[key].description + '\n'; 
-      }
-      
+    // for now just concatenate the error descriptions, alternative we could simply pass the entire error response upstream
+    for (var key in error.error) {
+      if (error.error[key]) modelStateErrors += error.error[key].description + '\n';
+    }
+
     modelStateErrors = modelStateErrors = '' ? null : modelStateErrors;
     return throwError(modelStateErrors || 'Server error');
   }

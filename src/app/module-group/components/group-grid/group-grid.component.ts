@@ -12,20 +12,19 @@ export class GroupGridComponent implements OnInit {
   @Output() createClicked = new EventEmitter<any>();
   @Output() editClicked = new EventEmitter<any>();
 
-  public displayedColumns : string[];
-  public dataSource: Array<any>;
+  public displayedColumns: string[];
 
-  constructor() { 
+  constructor() {
     this.displayedColumns = ["date", "name", "language", "description", "picture", "edit", "delete"];
   }
 
   ngOnInit() {
   }
- 
+
   public deleteRecord(record) {
     this.removeClicked.emit(record);
   }
-    
+
   public editRecord(record) {
     const clonedRecord = Object.assign({}, record);
     this.editClicked.emit(clonedRecord);
@@ -34,5 +33,9 @@ export class GroupGridComponent implements OnInit {
 
   public newRecord() {
     this.createClicked.emit();
+  }
+
+  trackByFn(index, item) {
+    return item.id; // уникальный id, соответствующий элементу
   }
 }

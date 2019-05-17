@@ -6,7 +6,7 @@ export class Group {
     description: string;
     picture: string;
 
-    constructor(id: number, name: string, date: Date, languageId: number, description: string, picture: string){
+    constructor(id: number, name: string, date: Date, languageId: number, description: string, picture: string) {
         this.id = id;
         this.name = name;
         this.date = date;

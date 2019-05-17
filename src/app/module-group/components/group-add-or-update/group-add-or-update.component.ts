@@ -15,36 +15,36 @@ export class GroupAddOrUpdateComponent implements OnInit {
 
   languages: Language[];
 
-  public buttonText = 'Save';
+  public buttonTextSave = 'Save';
+  public buttonTextNew = 'New';
 
   constructor(private languageService: LanguageService, private authService: AuthService) {
     this.clearGroupInfo();
-    console.log(this.groupInfo.date);
   }
   ngOnInit() {
     this.languageService.getAll(this.authService.authorizationHeaderValue).subscribe((response: any) => {
-      console.log(response);
       this.languages = response;
-      console.log(this.languages);    
     });
   }
 
-  private clearGroupInfo = function() {
+  private clearGroupInfo = function () {
     // Create an empty group object
-    if (typeof this.groupInfo === 'undefined')
-    {
-      this.groupInfo = {
-        id: '0',
-        name: '',
-        date: new Date(),
-        languageId: 1,
-        description: '',
-        picture: '',
-      };
+    this.groupInfo = {
+      id: 0,
+      name: '',
+      date: new Date(),
+      languageId: 1,
+      description: '',
+      picture: '',
     }
   };
 
-  public addOrUpdateGroupRecord = function(event) {
+  public newRecord() {
+    debugger;
+    this.clearGroupInfo();
+  }
+
+  public addOrUpdateGroupRecord = function (event) {
     this.groupCreated.emit(this.groupInfo);
     this.clearGroupInfo();
   };

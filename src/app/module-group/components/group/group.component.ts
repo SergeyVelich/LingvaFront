@@ -13,7 +13,7 @@ export class GroupComponent implements OnInit {
   public groupData: Array<any>;
   public currentGroup: any;
 
-  constructor (private groupService: GroupService, private authService: AuthService) {
+  constructor(private groupService: GroupService, private authService: AuthService) {
     debugger;
     groupService.getAll(this.authService.authorizationHeaderValue).subscribe((response: any) => this.groupData = response);
     this.currentGroup = this.setInitialValuesForGroupData();
@@ -22,7 +22,7 @@ export class GroupComponent implements OnInit {
   ngOnInit() {
   }
 
-  private setInitialValuesForGroupData() : Group {
+  private setInitialValuesForGroupData(): Group {
     return {
       id: 0,
       name: '',
@@ -33,12 +33,12 @@ export class GroupComponent implements OnInit {
     }
   }
 
-public createOrUpdateGroup = function(group: any) {
+  public createOrUpdateGroup = function (group: any) {
     let groupWithId;
     groupWithId = _.find(this.groupData, (el => el.id === group.id));
 
     if (groupWithId) {
-      const updateIndex = _.findIndex(this.groupData, {id: groupWithId.id});
+      const updateIndex = _.findIndex(this.groupData, { id: groupWithId.id });
       this.groupService.update(group, this.authService.authorizationHeaderValue).subscribe(
         () => this.groupData.splice(updateIndex, 1, group)
       );
@@ -51,16 +51,16 @@ public createOrUpdateGroup = function(group: any) {
     this.currentGroup = this.setInitialValuesForGroupData();
   };
 
-  public editClicked = function(record) {
+  public editClicked = function (record) {
     this.currentGroup = record;
   };
 
-  public createClicked = function() {
-    this.currentGroup = this.setInitialValuesForGroupData(); 
+  public createClicked = function () {
+    this.currentGroup = this.setInitialValuesForGroupData();
   };
 
   public removeClicked(record) {
-    const deleteIndex = _.findIndex(this.groupData, {id: record.id});
+    const deleteIndex = _.findIndex(this.groupData, { id: record.id });
     this.groupService.remove(record, this.authService.authorizationHeaderValue).subscribe(
       () => this.groupData.splice(deleteIndex, 1)
     );

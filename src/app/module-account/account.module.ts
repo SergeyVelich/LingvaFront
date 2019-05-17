@@ -1,4 +1,4 @@
-import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../module-shared/shared.module';
 
@@ -25,11 +25,4 @@ import { AuthGuard } from './services/auth/auth.guard';
   ]
 })
 export class AccountModule {
-  constructor(@Optional() @SkipSelf() parentModule: AccountModule) {
-    debugger;
-    // Import guard
-    if (parentModule) {
-      throw new Error(`${parentModule} has already been loaded. Import Core module in the AppModule only.`);
-    }
-  }
 }

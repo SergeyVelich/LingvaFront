@@ -5,8 +5,8 @@ import { TopSecretComponent } from './components/top-secret/top-secret.component
 import { AuthGuard } from '../module-account/services/auth/auth.guard';
 
 const routes: Routes = [
-Body.childRoutes([
-    { path: 'topsecret', component: TopSecretComponent, canActivate: [AuthGuard] }       
+  Body.childRoutes([
+    { path: 'topsecret', component: TopSecretComponent, canActivate: [AuthGuard] }
   ])
 ];
 

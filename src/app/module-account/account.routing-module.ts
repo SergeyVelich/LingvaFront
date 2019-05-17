@@ -8,10 +8,10 @@ import { AuthCallbackComponent } from './components/auth-callback/auth-callback.
 import { Body } from '../module-core/services/body/body.service';
 
 const routes: Routes = [
-Body.childRoutes([
+  Body.childRoutes([
     { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent }, 
-    { path: 'auth-callback', component: AuthCallbackComponent }  
+    { path: 'register', component: RegisterComponent },
+    { path: 'auth-callback', component: AuthCallbackComponent }
   ])
 ];
 

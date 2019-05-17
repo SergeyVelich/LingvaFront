@@ -1,70 +1,77 @@
-<button type="button" class="btn btn-info" (click)="newRecord(groupInfo)">New</button>
-<!-- <table mat-table [dataSource]="groupData" class="mat-elevation-z8">
+<mat-card class=group-grid-form>
+    <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+      
+  <!-- <table mat-table [dataSource]="groupData" class="mat-elevation-z8">
 
     <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef> Date </th>
-        <td mat-cell *matCellDef="let groupInfo"> {{groupInfo.date}} </td>
-      </ng-container>
-  
+      <th mat-header-cell *matHeaderCellDef> Date </th>
+      <td mat-cell *matCellDef="let groupInfo"> {{groupInfo.date}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let groupInfo"> {{groupInfo.name}} </td>
-      </ng-container>
-  
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let groupInfo"> {{groupInfo.name}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="language">
-        <th mat-header-cell *matHeaderCellDef> Language </th>
-        <td mat-cell *matCellDef="let groupInfo"> {{groupInfo.language}} </td>
-      </ng-container>
-  
+      <th mat-header-cell *matHeaderCellDef> Language </th>
+      <td mat-cell *matCellDef="let groupInfo"> {{groupInfo.language}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef> Description </th>
-        <td mat-cell *matCellDef="let groupInfo"> {{groupInfo.description}} </td>
-      </ng-container>
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let groupInfo"> {{groupInfo.description}} </td>
+    </ng-container>
 
     <ng-container matColumnDef="picture">
-        <th mat-header-cell *matHeaderCellDef> Picture </th>
-        <td mat-cell *matCellDef="let groupInfo"> {{groupInfo.picture}} </td>
-      </ng-container>
- 
-    <ng-container matColumnDef="edit">
-        <th mat-header-cell *matHeaderCellDef> Edit </th>
-        <td mat-cell *matCellDef="let groupInfo"> <button type="button" class="btn btn-info"matTooltip="Click Edit Button"(click)="editRecord(groupInfo)">Edit</button> </td>
-      </ng-container>
+      <th mat-header-cell *matHeaderCellDef> Picture </th>
+      <td mat-cell *matCellDef="let groupInfo"> {{groupInfo.picture}} </td>
+    </ng-container>
 
-      <ng-container matColumnDef="delete">
-          <th mat-header-cell *matHeaderCellDef> Delete </th>
-          <td mat-cell *matCellDef="let groupInfo"> <button type="button" class="btn btn-danger"matTooltip="Click Delete Button"(click)="deleteRecord(groupInfo)">Delete</button> </td>
-        </ng-container>
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef> Edit </th>
+      <td mat-cell *matCellDef="let groupInfo"> <button type="button" class="btn btn-info"
+          matTooltip="Click Edit Button" (click)="editRecord(groupInfo)">Edit</button> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef> Delete </th>
+      <td mat-cell *matCellDef="let groupInfo"> <button type="button" class="btn btn-danger"
+          matTooltip="Click Delete Button" (click)="deleteRecord(groupInfo)">Delete</button> </td>
+    </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table> -->
 
-<table>
-  <thead>
+  <table>
+    <thead>
       <tr>
-          <th class="tbl2">Title</th>  
-          <th class="tbl2">Date</th>  
-          <th class="tbl2">Language</th>  
-          <th class="tbl2">Description</th>  
-          <th class="tbl2">Picture</th>  
-          <th class="tbl2">Edit</th>  
-          <th class="tbl2">Delete</th> 
+        <th class="tbl2">Title</th>
+        <th class="tbl2">Date</th>
+        <th class="tbl2">Language</th>
+        <th class="tbl2">Description</th>
+        <th class="tbl2">Picture</th>
+        <th class="tbl2">Edit</th>
+        <th class="tbl2">Delete</th>
       </tr>
-  </thead>
-  <tbody>
-      <tr *ngFor="let groupInfo of groupData"> 
-          <td class="tbl2">{{groupInfo.name}}</td>  
-          <td class="tbl2">{{groupInfo.date | date: 'dd/MM/yyyy' }}</td>  
-          <td class="tbl2">{{groupInfo.languageId}}</td>  
-          <td class="tbl2">{{groupInfo.description}}</td>  
-          <td class="tbl2">{{groupInfo.picture}}</td> 
-          <td class="tbl2">  
-            <button type="button" class="btn btn-info" (click)="editRecord(groupInfo)">Edit</button>  
-          </td>  
-          <td class="tbl2">  
-            <button type="button" class="btn btn-danger" (click)="deleteRecord(groupInfo)">Delete</button>  
-          </td>  
+    </thead>
+    <tbody>
+      <tr *ngFor="let groupInfo of groupData; trackBy: trackByFn">
+        <td class="tbl2">{{groupInfo.name}}</td>
+        <td class="tbl2">{{groupInfo.date | date: 'dd/MM/yyyy' }}</td>
+        <td class="tbl2">{{groupInfo.languageId}}</td>
+        <td class="tbl2">{{groupInfo.description}}</td>
+        <td class="tbl2">{{groupInfo.picture}}</td>
+        <td class="tbl2">
+          <button type="button" class="btn btn-info" (click)="editRecord(groupInfo)">Edit</button>
+        </td>
+        <td class="tbl2">
+          <button type="button" class="btn btn-danger" (click)="deleteRecord(groupInfo)">Delete</button>
+        </td>
       </tr>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</mat-card>

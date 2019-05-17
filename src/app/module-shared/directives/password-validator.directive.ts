@@ -5,10 +5,10 @@ import { Validator, AbstractControl, ValidationErrors, NG_VALIDATORS } from '@an
   selector: '[password]',
   providers: [{ provide: NG_VALIDATORS, useExisting: PasswordValidatorDirective, multi: true }]
 })
-export class PasswordValidatorDirective implements Validator{
+export class PasswordValidatorDirective implements Validator {
 
   validate(c: AbstractControl): ValidationErrors | null {
-     if (c.value === null || c.value.length === 0) {
+    if (c.value === null || c.value.length === 0) {
       return null;
     }
 

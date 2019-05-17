@@ -8,7 +8,7 @@ import { AuthGuard } from '../module-account/services/auth/auth.guard';
 
 const routes: Routes = [
   Body.childRoutes([
-    { path: 'group', component: GroupComponent, canActivate: [AuthGuard]}
+    { path: 'group', component: GroupComponent, canActivate: [AuthGuard] }
   ])
 ];
 

@@ -13,6 +13,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { AutofocusDirective } from './directives/auto-focus.directive';
 import { CompareValidatorDirective } from './directives/compare-validator.directive';
 import { PasswordValidatorDirective } from './directives/password-validator.directive';
+import { InputButtonClearComponent } from './components/input-button-clear/input-button-clear.component';
 
 import {
   MatButtonModule, MatMenuModule, MatDatepickerModule, MatNativeDateModule, MatIconModule, MatCardModule, MatSidenavModule, MatFormFieldModule,
@@ -45,6 +46,7 @@ const modules = [
     AutofocusDirective,
     CompareValidatorDirective,
     PasswordValidatorDirective,
+    InputButtonClearComponent,
   ],
   imports: [
     CommonModule,
@@ -65,7 +67,8 @@ const modules = [
     AutofocusDirective,
     CompareValidatorDirective,
     PasswordValidatorDirective,
-    modules
+    modules,
+    InputButtonClearComponent
   ],
   providers: [
   ]

@@ -10,7 +10,7 @@ import { BaseService } from 'src/app/module-shared/services/base.service';
 /**
  * Provides helper methods to create routes.
  */
-export class Body extends BaseService{
+export class Body extends BaseService {
 
   /**
    * Creates routes using the body component and authentication.

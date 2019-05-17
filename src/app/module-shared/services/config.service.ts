@@ -10,7 +10,7 @@ export class ConfigService {
     constructor() { }
 
     get originURI() {
-        return 'http://localhost:6050';
+        return 'http://localhost:4200';
     }
 
     get authApiURI() {
