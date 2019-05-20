@@ -6,7 +6,7 @@
   </mat-card-header>
   <mat-card-content>
     <mat-form-field class=group-add-or-update-form-field>
-      <input matInput type="text" placeholder="Name" [(ngModel)]="groupInfo.name" name="name">
+      <input matInput type="text" placeholder="Name" [(ngModel)]="groupInfo.name" name="name" autocomplete="off">
       <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="groupInfo.name=''">
         <mat-icon>close</mat-icon>
       </button>
@@ -25,13 +25,13 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field class=group-add-or-update-form-field>
-      <input matInput type="text" placeholder="Description" [(ngModel)]="groupInfo.description" name="description">
+      <input matInput type="text" placeholder="Description" [(ngModel)]="groupInfo.description" name="description" autocomplete="off">
       <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="groupInfo.description=''">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
     <mat-form-field class=group-add-or-update-form-field>
-      <input matInput type="text" placeholder="Picture" [(ngModel)]="groupInfo.picture" name="picture" #pictureInput>
+      <input matInput type="text" placeholder="Picture" [(ngModel)]="groupInfo.picture" name="picture" autocomplete="off">
       <!-- <app-input-button-clear></app-input-button-clear> -->
       <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="groupInfo.picture=''">
         <mat-icon>close</mat-icon>
