@@ -65,7 +65,6 @@ export class AuthService extends BaseService {
   }
 
   signout() {
-    debugger;
     this.manager.signoutRedirect();
     this.manager.removeUser();
     this.manager.clearStaleState();

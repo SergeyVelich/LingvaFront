@@ -40,7 +40,6 @@ export class GroupAddOrUpdateComponent implements OnInit {
   };
 
   public newRecord() {
-    debugger;
     this.clearGroupInfo();
   }
 

@@ -14,7 +14,6 @@ export class GroupComponent implements OnInit {
   public currentGroup: any;
 
   constructor(private groupService: GroupService, private authService: AuthService) {
-    debugger;
     groupService.getAll(this.authService.authorizationHeaderValue).subscribe((response: any) => this.groupData = response);
     this.currentGroup = this.setInitialValuesForGroupData();
   }
@@ -28,6 +27,7 @@ export class GroupComponent implements OnInit {
       name: '',
       date: new Date(),
       languageId: 1,
+      languageName: '',
       description: '',
       picture: '',
     }
@@ -65,6 +65,11 @@ export class GroupComponent implements OnInit {
       () => this.groupData.splice(deleteIndex, 1)
     );
   }
+
+  public applyFilters = function (filters) {
+    this.groupService.getAll1(this.authService.authorizationHeaderValue, filters).subscribe((response: any) => this.groupData = response);
+    this.currentGroup = this.setInitialValuesForGroupData();
+  };
 }
 
 

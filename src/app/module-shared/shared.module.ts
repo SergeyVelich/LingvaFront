@@ -75,6 +75,5 @@ const modules = [
 })
 export class SharedModule {
   constructor() {
-    debugger;
   }
 }

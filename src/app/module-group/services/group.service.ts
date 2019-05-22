@@ -27,6 +27,24 @@ export class GroupService extends BaseService {
     };
     return this.http.get<Group[]>(this.configService.resourceApiURI + '/group', httpOptions).pipe(catchError(this.handleError));
   }
+  getAll1(token: string, filters: any): Observable<Group[]> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': token,
+      })
+    };
+
+    let queryParam = '?'; 
+    filters.forEach((filter, key) => {
+      if(queryParam != '?'){
+        queryParam = queryParam + '&';
+      }
+      queryParam = queryParam + filter.propertyName + filter.operation + filter.propertyValue;
+    });      
+
+    return this.http.get<Group[]>(this.configService.resourceApiURI + '/group' + queryParam, httpOptions).pipe(catchError(this.handleError));
+  }
   getById(groupId: string, token: string): Observable<Group> {
     const httpOptions = {
       headers: new HttpHeaders({
