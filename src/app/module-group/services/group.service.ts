@@ -7,6 +7,7 @@ import { Group } from 'src/app/module-group/models/group';
 import { BaseService } from "../../module-shared/services/base.service";
 import { ConfigService } from '../../module-shared/services/config.service';
 import { HttpParamsOptions } from '@angular/common/http/src/params';
+import { Sorter } from 'src/app/module-shared/models/sorter';
 
 @Injectable({
   providedIn: 'root'
@@ -18,16 +19,7 @@ export class GroupService extends BaseService {
     super();
   }
 
-  getAll(token: string): Observable<Group[]> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json; charset=utf-8',
-        'Authorization': token,
-      })
-    };
-    return this.http.get<Group[]>(this.configService.resourceApiURI + '/group', httpOptions).pipe(catchError(this.handleError));
-  }
-  getAll1(token: string, filters: any): Observable<Group[]> {
+  getAll(token: string, filters?: any, sorting?: Sorter): Observable<Group[]> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json; charset=utf-8',
@@ -36,12 +28,20 @@ export class GroupService extends BaseService {
     };
 
     let queryParam = '?'; 
-    filters.forEach((filter, key) => {
+    if(filters != null){
+      filters.forEach((filter, key) => {
+        if(queryParam != '?'){
+          queryParam = queryParam + '&';
+        }
+        queryParam = queryParam + filter.propertyName + filter.operation + filter.propertyValue;
+      });  
+    }
+    if(sorting != null){
       if(queryParam != '?'){
         queryParam = queryParam + '&';
       }
-      queryParam = queryParam + filter.propertyName + filter.operation + filter.propertyValue;
-    });      
+      queryParam = queryParam + 'sortProperty=' + sorting.sortProperty + '&sortOrder=' + sorting.sortOrder;
+    }
 
     return this.http.get<Group[]>(this.configService.resourceApiURI + '/group' + queryParam, httpOptions).pipe(catchError(this.handleError));
   }

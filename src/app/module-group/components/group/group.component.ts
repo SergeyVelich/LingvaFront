@@ -66,8 +66,9 @@ export class GroupComponent implements OnInit {
     );
   }
 
-  public applyFilters = function (filters) {
-    this.groupService.getAll1(this.authService.authorizationHeaderValue, filters).subscribe((response: any) => this.groupData = response);
+  public refreshTable = function (params) {
+    debugger;
+    this.groupService.getAll(this.authService.authorizationHeaderValue, params.filters, params.sorting).subscribe((response: any) => this.groupData = response);
     this.currentGroup = this.setInitialValuesForGroupData();
   };
 }
