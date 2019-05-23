@@ -29,6 +29,7 @@ export class GroupAddOrUpdateComponent implements OnInit {
 
   private clearGroupInfo = function () {
     // Create an empty group object
+    debugger;
     this.groupInfo = {
       id: 0,
       name: '',
@@ -44,6 +45,7 @@ export class GroupAddOrUpdateComponent implements OnInit {
   }
 
   public addOrUpdateGroupRecord = function (event) {
+    debugger;
     this.groupCreated.emit(this.groupInfo);
     this.clearGroupInfo();
   };

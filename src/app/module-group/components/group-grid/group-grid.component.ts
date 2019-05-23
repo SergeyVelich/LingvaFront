@@ -22,7 +22,8 @@ export class GroupGridComponent implements OnInit {
   sorting = new Sorter('Name', 'Desc');
   filterName: string;
   filterLanguage: number;
-  filterDate: Date;
+  filterDateFrom: Date;
+  filterDateTo: Date;
 
   public displayedColumns: string[];
 
@@ -35,7 +36,6 @@ export class GroupGridComponent implements OnInit {
   ngOnInit() {
     this.languageService.getAll(this.authService.authorizationHeaderValue).subscribe((response: any) => {
       this.languages = response;
-      this.languages.unshift(new Language(0, 'all'));
     });
   }
 
@@ -54,35 +54,71 @@ export class GroupGridComponent implements OnInit {
 
   onChangeFilterName(filterValue: string) {
     let name = 'name';
-    let value = filterValue.toLowerCase();
-    let operation = '=';
-
-    this.onChangeFilter(new Filter(name, value, operation));
+    if(filterValue == null || filterValue.trim().length == 0){
+      this.onClearFilter(name);
+    }
+    else{
+      let value = filterValue.toLowerCase();
+      let operation = '=';
+  
+      this.onChangeFilter(new Filter(name, value, operation));           
+    }
   }
 
   onChangeFilterLanguage(filterValue: number) {
     let name = 'languageId';
-    let value = filterValue.toString();
-    let operation = '=';
-
-    this.onChangeFilter(new Filter(name, value, operation));
+    if(filterValue == null || filterValue == 0){
+      this.onClearFilter(name);
+    }
+    else{
+      let value = filterValue.toString();
+      let operation = '=';
+  
+      this.onChangeFilter(new Filter(name, value, operation));           
+    }
   }
 
-  onChangeFilterDate(filterValue: number) {
-    let name = 'date';
-    let value = filterValue.toString();
-    let operation = '=';
+  onChangeFilterDateFrom(filterValue: Date) {
+    debugger;
+    let name = 'dateFrom';
+    if(filterValue == null){
+      this.onClearFilter(name);
+    }
+    else{
+      console.log(filterValue.toUTCString());
+      console.log(new Date(filterValue).toUTCString());
 
-    this.onChangeFilter(new Filter(name, value, operation));
+      let value = new Date(filterValue).toUTCString();
+      let operation = '=';
+  
+      this.onChangeFilter(new Filter(name, value, operation));           
+    }
+  }
+  
+  onChangeFilterDateTo(filterValue: Date) {
+    let name = 'dateTo';
+    if(filterValue == null){
+      this.onClearFilter(name);
+    }
+    else{
+      let value = new Date(filterValue).toUTCString();
+      let operation = '=';
+  
+      this.onChangeFilter(new Filter(name, value, operation));           
+    }
   }
 
-  onChangeFilter(filter: Filter) {   
+  onChangeFilter(filter: Filter) {  
     this.filters.set(filter.propertyName, filter);
     this.refreshTable.emit({ filters: this.filters, sorting: this.sorting}); 
   }
 
+  onClearFilter(filterName: string) {  
+    this.filters.delete(filterName);
+    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting}); 
+  }
+
   onChangeSorting(column: string) { 
-    debugger;
     if(this.sorting.sortProperty === column){
       if(this.sorting.sortOrder === 'Desc'){
         this.sorting.sortOrder = 'Asc';

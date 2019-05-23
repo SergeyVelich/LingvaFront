@@ -6,7 +6,6 @@ import { catchError } from 'rxjs/operators';
 import { Group } from 'src/app/module-group/models/group';
 import { BaseService } from "../../module-shared/services/base.service";
 import { ConfigService } from '../../module-shared/services/config.service';
-import { HttpParamsOptions } from '@angular/common/http/src/params';
 import { Sorter } from 'src/app/module-shared/models/sorter';
 
 @Injectable({
@@ -27,6 +26,7 @@ export class GroupService extends BaseService {
       })
     };
 
+    debugger;
     let queryParam = '?'; 
     if(filters != null){
       filters.forEach((filter, key) => {
@@ -70,6 +70,7 @@ export class GroupService extends BaseService {
         'Authorization': token,
       })
     };
+    debugger;
     return this.http.put<Group>(this.configService.resourceApiURI + '/group/update', group, httpOptions).pipe(catchError(this.handleError));
   }
   remove(group: Group, token: string): Observable<number> {

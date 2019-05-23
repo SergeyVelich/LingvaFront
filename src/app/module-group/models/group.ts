@@ -8,6 +8,7 @@ export class Group {
     picture: string;
 
     constructor(id: number, name: string, date: Date, languageId: number, languageName: string, description: string, picture: string) {
+       debugger;
         this.id = id;
         this.name = name;
         this.date = date;

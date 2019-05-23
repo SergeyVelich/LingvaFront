@@ -14,6 +14,7 @@ export class GroupComponent implements OnInit {
   public currentGroup: any;
 
   constructor(private groupService: GroupService, private authService: AuthService) {
+    debugger;
     groupService.getAll(this.authService.authorizationHeaderValue).subscribe((response: any) => this.groupData = response);
     this.currentGroup = this.setInitialValuesForGroupData();
   }
@@ -34,6 +35,7 @@ export class GroupComponent implements OnInit {
   }
 
   public createOrUpdateGroup = function (group: any) {
+    debugger;
     let groupWithId;
     groupWithId = _.find(this.groupData, (el => el.id === group.id));
 
@@ -67,7 +69,6 @@ export class GroupComponent implements OnInit {
   }
 
   public refreshTable = function (params) {
-    debugger;
     this.groupService.getAll(this.authService.authorizationHeaderValue, params.filters, params.sorting).subscribe((response: any) => this.groupData = response);
     this.currentGroup = this.setInitialValuesForGroupData();
   };

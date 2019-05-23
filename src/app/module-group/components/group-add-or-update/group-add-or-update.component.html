@@ -13,7 +13,7 @@
     </mat-form-field>
     <mat-form-field class=group-add-or-update-form-field>
       <mat-label>Date</mat-label>
-      <input matInput [ngModel]="groupInfo.date | date: 'yyyy-MM-dd'" [matDatepicker]="from" placeholder="Choose a date" name="date" (ngModelChange)="updateDate($event)">
+      <input matInput [(ngModel)]="groupInfo.date" [matDatepicker]="from" placeholder="Choose a date" name="date">
       <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
       <mat-datepicker #from></mat-datepicker>
     </mat-form-field>
