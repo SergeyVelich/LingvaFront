@@ -4,6 +4,7 @@ import { LanguageService } from '../../services/language.service';
 import { AuthService } from '../../../module-account/services/auth/auth.service';
 import { Filter } from 'src/app/module-shared/models/filter';
 import { Sorter } from 'src/app/module-shared/models/sorter';
+import { Sort } from '@angular/material';
 
 @Component({
   selector: 'app-group-grid',
@@ -24,6 +25,8 @@ export class GroupGridComponent implements OnInit {
   filterLanguage: number;
   filterDateFrom: Date;
   filterDateTo: Date;
+  minFilterDate: Date;
+  maxFilterDate: Date;
 
   public displayedColumns: string[];
 
@@ -81,13 +84,11 @@ export class GroupGridComponent implements OnInit {
   onChangeFilterDateFrom(filterValue: Date) {
     debugger;
     let name = 'dateFrom';
+    this.minFilterDate = this.filterDateFrom;
     if(filterValue == null){
       this.onClearFilter(name);
     }
     else{
-      console.log(filterValue.toUTCString());
-      console.log(new Date(filterValue).toUTCString());
-
       let value = new Date(filterValue).toUTCString();
       let operation = '=';
   
@@ -97,6 +98,7 @@ export class GroupGridComponent implements OnInit {
   
   onChangeFilterDateTo(filterValue: Date) {
     let name = 'dateTo';
+    this.maxFilterDate = this.filterDateTo;
     if(filterValue == null){
       this.onClearFilter(name);
     }
@@ -118,18 +120,12 @@ export class GroupGridComponent implements OnInit {
     this.refreshTable.emit({ filters: this.filters, sorting: this.sorting}); 
   }
 
-  onChangeSorting(column: string) { 
-    if(this.sorting.sortProperty === column){
-      if(this.sorting.sortOrder === 'Desc'){
-        this.sorting.sortOrder = 'Asc';
-      }
-      else{
-        this.sorting.sortOrder = 'Desc';
-      }
+  sortData(sort: Sort) {
+    if (!sort.active || sort.direction === '') {
+      return;
     }
-    else{
-      this.sorting = new Sorter(column, 'Desc');     
-    }  
-    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting}); 
+
+    this.sorting = new Sorter(sort.active, sort.direction);
+    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting});
   }
 }

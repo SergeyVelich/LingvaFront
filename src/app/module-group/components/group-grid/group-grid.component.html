@@ -4,7 +4,8 @@
       <div>
         <mat-form-field class="filter-field">
           <mat-label>Date from</mat-label>
-          <input matInput [(ngModel)]="filterDateFrom" [matDatepicker]="filterDateFromPicker" placeholder="Choose a date" autocomplete="off" (dateChange)="onChangeFilterDateFrom(filterDateFrom)">
+          <input matInput [(ngModel)]="filterDateFrom" [max]="maxFilterDate" [matDatepicker]="filterDateFromPicker" placeholder="Choose a date" 
+          autocomplete="off" (dateChange)="onChangeFilterDateFrom(filterDateFrom)">
           <mat-datepicker-toggle matSuffix [for]="filterDateFromPicker"></mat-datepicker-toggle>
           <mat-datepicker #filterDateFromPicker></mat-datepicker>
           <button mat-button matSuffix mat-icon-button aria-label="Clear"
@@ -14,7 +15,7 @@
         </mat-form-field>
         <mat-form-field class="filter-field">
           <mat-label>Date to</mat-label>
-          <input matInput [(ngModel)]="filterDateTo" [matDatepicker]="filterDateToPicker" placeholder="Choose a date" autocomplete="off" (dateChange)="onChangeFilterDateTo(filterDateTo)">
+          <input matInput [(ngModel)]="filterDateTo" [min]="minFilterDate" [matDatepicker]="filterDateToPicker" placeholder="Choose a date" autocomplete="off" (dateChange)="onChangeFilterDateTo(filterDateTo)">
           <mat-datepicker-toggle matSuffix [for]="filterDateToPicker"></mat-datepicker-toggle>
           <mat-datepicker #filterDateToPicker></mat-datepicker>
           <button mat-button matSuffix mat-icon-button aria-label="Clear"
@@ -49,22 +50,20 @@
       </div>
     </li>
   </ul>
-  <table class="table-sort">
+  <table class="table-sort" matSort matSortActive="name" matSortDirection="desc" matSortDisableClear="true" (matSortChange)="sortData($event)"> 
     <thead>
       <tr>
-        <th class="tbl2" role="columnheader" aria-sort="ascending" (click)="onChangeSorting('Name')">Title</th>
-        <th class="tbl2" role="columnheader" aria-sort="ascending" (click)="onChangeSorting('Date')">Date</th>
-        <th class="tbl2" role="columnheader" aria-sort="ascending" (click)="onChangeSorting('Language')">Language</th>
-        <th class="tbl2" role="columnheader" aria-sort="ascending" (click)="onChangeSorting('Description')">Description
-        </th>
-        <th class="tbl2" role="columnheader" aria-sort="ascending" (click)="onChangeSorting('Picture')">Picture</th>
+        <th mat-sort-header="name" class="tbl2" role="columnheader">Title</th>
+        <th mat-sort-header="date" class="tbl2" role="columnheader">Date</th>
+        <th mat-sort-header="language" class="tbl2" role="columnheader">Language</th>
+        <th mat-sort-header="description" class="tbl2" role="columnheader">Description</th>
+        <th mat-sort-header="picture" class="tbl2" role="columnheader">Picture</th>
         <th class="tbl2"></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let groupInfo of groupData; trackBy: trackByFn">
         <td class="tbl2">{{groupInfo.name}}</td>
-        <!-- <td class="tbl2">{{groupInfo.date | date: 'dd/MM/yyyy' }}</td> -->
         <td class="tbl2">{{groupInfo.date | date: 'dd/MM/yyyy' }}</td>
         <td class="tbl2">{{groupInfo.languageName}}</td>
         <td class="tbl2">{{groupInfo.description}}</td>
