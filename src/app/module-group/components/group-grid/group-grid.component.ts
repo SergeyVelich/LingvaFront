@@ -14,6 +14,7 @@ import { Sort } from '@angular/material';
 
 export class GroupGridComponent implements OnInit {
   @Input() groupData: Array<any>;
+  @Input() length: number;
   @Output() removeClicked = new EventEmitter<any>();
   @Output() editClicked = new EventEmitter<any>();
   @Output() refreshTable = new EventEmitter<any>();
@@ -27,6 +28,8 @@ export class GroupGridComponent implements OnInit {
   filterDateTo: Date;
   minFilterDate: Date;
   maxFilterDate: Date;
+  pageSize = 5;
+  pageSizeOptions: number[] = [5, 10, 25];
 
   public displayedColumns: string[];
 
@@ -127,5 +130,10 @@ export class GroupGridComponent implements OnInit {
 
     this.sorting = new Sorter(sort.active, sort.direction);
     this.refreshTable.emit({ filters: this.filters, sorting: this.sorting});
+  }
+
+  onChangePage(event: any) {
+    debugger;
+    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting, pageIndex: event.pageIndex, pageSize: event.pageSize});
   }
 }

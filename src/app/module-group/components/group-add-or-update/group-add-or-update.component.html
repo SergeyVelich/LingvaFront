@@ -24,13 +24,15 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field class=group-add-or-update-form-field>
-      <input matInput type="text" placeholder="Description" [(ngModel)]="groupInfo.description" name="description" autocomplete="off">
+      <textarea matInput matInput cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5"
+        placeholder="Description" [(ngModel)]="groupInfo.description" name="description" autocomplete="off"></textarea>
       <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="groupInfo.description=''">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
     <mat-form-field class=group-add-or-update-form-field>
-      <input matInput type="text" placeholder="Picture" [(ngModel)]="groupInfo.picture" name="picture" autocomplete="off">
+      <input matInput type="text" placeholder="Picture" [(ngModel)]="groupInfo.picture" name="picture"
+        autocomplete="off">
       <!-- <app-input-button-clear></app-input-button-clear> -->
       <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="groupInfo.picture=''">
         <mat-icon>close</mat-icon>
@@ -42,7 +44,8 @@
       <span style="float: left">
         <button mat-button type="button" class="btn btn-info" (click)="newRecord($event)">{{buttonTextNew}}</button>
       </span>
-      <button mat-button type="button" class="btn btn-info" (click)="addOrUpdateGroupRecord($event)">{{buttonTextSave}}</button>
+      <button mat-button type="button" class="btn btn-info"
+        (click)="addOrUpdateGroupRecord($event)">{{buttonTextSave}}</button>
     </div>
   </mat-card-actions>
 </mat-card>

@@ -18,7 +18,7 @@ export class GroupService extends BaseService {
     super();
   }
 
-  getAll(token: string, filters?: any, sorting?: Sorter): Observable<Group[]> {
+  getAll(token: string, filters?: any, sorting?: Sorter, pageIndex?: number, pageSize?: number): Observable<Group[]> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json; charset=utf-8',
@@ -26,7 +26,6 @@ export class GroupService extends BaseService {
       })
     };
 
-    debugger;
     let queryParam = '?'; 
     if(filters != null){
       filters.forEach((filter, key) => {
@@ -42,8 +41,46 @@ export class GroupService extends BaseService {
       }
       queryParam = queryParam + 'sortProperty=' + sorting.sortProperty + '&sortOrder=' + sorting.sortOrder;
     }
+    if(pageIndex != null){
+      if(queryParam != '?'){
+        queryParam = queryParam + '&';
+      }
+      queryParam = queryParam + 'pageIndex=' + pageIndex;
+    }
+    if(pageSize != null){
+      if(queryParam != '?'){
+        queryParam = queryParam + '&';
+      }
+      queryParam = queryParam + 'pageSize=' + pageSize;
+    }
+    if(queryParam === '?'){
+      queryParam = '';
+    }
 
     return this.http.get<Group[]>(this.configService.resourceApiURI + '/group' + queryParam, httpOptions).pipe(catchError(this.handleError));
+  }
+  count(token: string, filters?: any): Observable<number> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': token,
+      })
+    };
+
+    let queryParam = '?'; 
+    if(filters != null){
+      filters.forEach((filter, key) => {
+        if(queryParam != '?'){
+          queryParam = queryParam + '&';
+        }
+        queryParam = queryParam + filter.propertyName + filter.operation + filter.propertyValue;
+      });  
+    }
+    if(queryParam === '?'){
+      queryParam = '';
+    }
+
+    return this.http.get<number>(this.configService.resourceApiURI + '/group/count' + queryParam, httpOptions).pipe(catchError(this.handleError));
   }
   getById(groupId: string, token: string): Observable<Group> {
     const httpOptions = {

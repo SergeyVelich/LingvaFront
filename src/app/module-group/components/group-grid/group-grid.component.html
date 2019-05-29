@@ -4,8 +4,8 @@
       <div>
         <mat-form-field class="filter-field">
           <mat-label>Date from</mat-label>
-          <input matInput [(ngModel)]="filterDateFrom" [max]="maxFilterDate" [matDatepicker]="filterDateFromPicker" placeholder="Choose a date" 
-          autocomplete="off" (dateChange)="onChangeFilterDateFrom(filterDateFrom)">
+          <input matInput [(ngModel)]="filterDateFrom" [max]="maxFilterDate" [matDatepicker]="filterDateFromPicker"
+            placeholder="Choose a date" autocomplete="off" (dateChange)="onChangeFilterDateFrom(filterDateFrom)">
           <mat-datepicker-toggle matSuffix [for]="filterDateFromPicker"></mat-datepicker-toggle>
           <mat-datepicker #filterDateFromPicker></mat-datepicker>
           <button mat-button matSuffix mat-icon-button aria-label="Clear"
@@ -15,7 +15,8 @@
         </mat-form-field>
         <mat-form-field class="filter-field">
           <mat-label>Date to</mat-label>
-          <input matInput [(ngModel)]="filterDateTo" [min]="minFilterDate" [matDatepicker]="filterDateToPicker" placeholder="Choose a date" autocomplete="off" (dateChange)="onChangeFilterDateTo(filterDateTo)">
+          <input matInput [(ngModel)]="filterDateTo" [min]="minFilterDate" [matDatepicker]="filterDateToPicker"
+            placeholder="Choose a date" autocomplete="off" (dateChange)="onChangeFilterDateTo(filterDateTo)">
           <mat-datepicker-toggle matSuffix [for]="filterDateToPicker"></mat-datepicker-toggle>
           <mat-datepicker #filterDateToPicker></mat-datepicker>
           <button mat-button matSuffix mat-icon-button aria-label="Clear"
@@ -50,7 +51,8 @@
       </div>
     </li>
   </ul>
-  <table class="table-sort" matSort matSortActive="name" matSortDirection="desc" matSortDisableClear="true" (matSortChange)="sortData($event)"> 
+  <table class="table-sort" matSort matSortActive="name" matSortDirection="desc" matSortDisableClear="true"
+    (matSortChange)="sortData($event)">
     <thead>
       <tr>
         <th mat-sort-header="name" class="tbl2" role="columnheader">Title</th>
@@ -69,10 +71,13 @@
         <td class="tbl2">{{groupInfo.description}}</td>
         <td class="tbl2">{{groupInfo.picture}}</td>
         <td class="tbl2">
-          <button type="button" class="btn btn-info" (click)="editRecord(groupInfo)">Edit</button>
-          <button type="button" class="btn btn-danger" (click)="deleteRecord(groupInfo)">Delete</button>
+          <button mat-button color="primary" (click)="editRecord(groupInfo)">Edit</button>
+          <button mat-button color="warn" (click)="deleteRecord(groupInfo)">Delete</button>
         </td>
       </tr>
     </tbody>
   </table>
+  <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+    (page)="onChangePage($event)">
+  </mat-paginator>
 </mat-card>

@@ -12,10 +12,12 @@ import { AuthService } from '../../../module-account/services/auth/auth.service'
 export class GroupComponent implements OnInit {
   public groupData: Array<any>;
   public currentGroup: any;
+  public numberElements: number;
 
   constructor(private groupService: GroupService, private authService: AuthService) {
     debugger;
     groupService.getAll(this.authService.authorizationHeaderValue).subscribe((response: any) => this.groupData = response);
+    groupService.count(this.authService.authorizationHeaderValue).subscribe((response: number) => this.numberElements = response);
     this.currentGroup = this.setInitialValuesForGroupData();
   }
 
@@ -42,11 +44,11 @@ export class GroupComponent implements OnInit {
     if (groupWithId) {
       const updateIndex = _.findIndex(this.groupData, { id: groupWithId.id });
       this.groupService.update(group, this.authService.authorizationHeaderValue).subscribe(
-        () => this.groupData.splice(updateIndex, 1, group)
+        (response: Group) => this.groupData.splice(updateIndex, 1, response)
       );
     } else {
       this.groupService.create(group, this.authService.authorizationHeaderValue).subscribe(
-        () => this.groupData.push(group)
+        (response: Group) => this.groupData.push(response)
       );
     }
 
@@ -69,7 +71,8 @@ export class GroupComponent implements OnInit {
   }
 
   public refreshTable = function (params) {
-    this.groupService.getAll(this.authService.authorizationHeaderValue, params.filters, params.sorting).subscribe((response: any) => this.groupData = response);
+    this.groupService.getAll(this.authService.authorizationHeaderValue, params.filters, params.sorting, params.pageIndex, params.pageSize).subscribe((response: any) => this.groupData = response);
+    this.groupService.count(this.authService.authorizationHeaderValue, params.filters).subscribe((response: number) => this.numberElements = response);
     this.currentGroup = this.setInitialValuesForGroupData();
   };
 }

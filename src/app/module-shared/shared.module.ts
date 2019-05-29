@@ -16,20 +16,14 @@ import { PasswordValidatorDirective } from './directives/password-validator.dire
 import { InputButtonClearComponent } from './components/input-button-clear/input-button-clear.component';
 
 import {
-  MatButtonModule, MatMenuModule, MatDatepickerModule, MatNativeDateModule, MatIconModule, MatCardModule, MatSidenavModule, MatFormFieldModule,
+  MatButtonModule, MatMenuModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatSidenavModule, MatFormFieldModule,
   MatInputModule, MatTooltipModule, MatToolbarModule, MatSelectModule, MatPaginatorModule, MatProgressSpinnerModule, MatSortModule, MatTableModule, MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter
 } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-
 import * as _moment from 'moment';
-// tslint:disable-next-line:no-duplicate-imports
-// import { default as _rollupMoment } from 'moment';
 
-// const moment = _rollupMoment || _moment;
-
-// See the Moment.js docs for the meaning of these formats:
-// https://momentjs.com/docs/#/displaying/format/
 export const MY_FORMATS = {
   parse: {
     dateInput: 'DD.MM.YYYY',
@@ -76,7 +70,7 @@ const modules = [
     FormsModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
-    modules
+    modules,
   ],
   exports: [
     CommonModule,
@@ -89,7 +83,7 @@ const modules = [
     CompareValidatorDirective,
     PasswordValidatorDirective,
     modules,
-    InputButtonClearComponent
+    InputButtonClearComponent,
   ],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
