@@ -71,6 +71,7 @@ export class GroupComponent implements OnInit {
   }
 
   public refreshTable = function (params) {
+    debugger;
     this.groupService.getAll(this.authService.authorizationHeaderValue, params.filters, params.sorting, params.pageIndex, params.pageSize).subscribe((response: any) => this.groupData = response);
     this.groupService.count(this.authService.authorizationHeaderValue, params.filters).subscribe((response: number) => this.numberElements = response);
     this.currentGroup = this.setInitialValuesForGroupData();

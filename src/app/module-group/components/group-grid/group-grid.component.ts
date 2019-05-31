@@ -5,7 +5,6 @@ import { AuthService } from '../../../module-account/services/auth/auth.service'
 import { Filter } from 'src/app/module-shared/models/filter';
 import { Sorter } from 'src/app/module-shared/models/sorter';
 import { Sort } from '@angular/material';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-group-grid',
@@ -34,7 +33,7 @@ export class GroupGridComponent implements OnInit {
 
   public displayedColumns: string[];
 
-  constructor(private languageService: LanguageService, private authService: AuthService, private datePipe: DatePipe) {
+  constructor(private languageService: LanguageService, private authService: AuthService) {
     this.filterName = '';
     this.filterLanguage = 0;
     this.displayedColumns = ["date", "name", "language", "description", "picture", "edit", "delete"];
@@ -93,7 +92,6 @@ export class GroupGridComponent implements OnInit {
       this.onClearFilter(name);
     }
     else{
-      // let value = new Date(filterValue).toUTCString();
       let value = new Date(filterValue).toUTCString();
       let operation = '=';
   
@@ -102,7 +100,6 @@ export class GroupGridComponent implements OnInit {
   }
   
   onChangeFilterDateTo(filterValue: Date) {
-    debugger;
     let name = 'dateTo';
     this.maxFilterDate = this.filterDateTo;
     if(filterValue == null){
@@ -137,6 +134,6 @@ export class GroupGridComponent implements OnInit {
 
   onChangePage(event: any) {
     debugger;
-    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting, pageIndex: event.pageIndex, pageSize: event.pageSize});
+    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting, pageIndex: event.pageIndex + 1, pageSize: event.pageSize});
   }
 }
