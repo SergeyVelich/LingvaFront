@@ -17,12 +17,14 @@ import { InputButtonClearComponent } from './components/input-button-clear/input
 
 import {
   MatButtonModule, MatMenuModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatSidenavModule, MatFormFieldModule,
-  MatInputModule, MatTooltipModule, MatToolbarModule, MatSelectModule, MatPaginatorModule, MatProgressSpinnerModule, MatSortModule, MatTableModule, MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter
+  MatInputModule, MatTooltipModule, MatToolbarModule, MatSelectModule, MatPaginatorModule, MatProgressSpinnerModule, MatSortModule, MatTableModule,
+  MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter
 } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import * as _moment from 'moment';
+import { MatFileUploadModule } from 'angular-material-fileupload';
 
 export const MY_FORMATS = {
   parse: {
@@ -53,7 +55,8 @@ const modules = [
   MatTableModule,
   MatPaginatorModule,
   MatSortModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatFileUploadModule
 ];
 
 @NgModule({
