@@ -30,17 +30,12 @@
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
-    <!-- <mat-form-field class=group-add-or-update-form-field>
-      <input matInput type="text" placeholder="Picture" [(ngModel)]="groupInfo.picture" name="picture"
-        autocomplete="off">
-      <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="groupInfo.picture=''">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field> -->
-    <input #file type="file" (change)="upload(file.files)" />
+    <!-- <input type="file" (change)="upload(fileInput.files)" #fileInput> -->
+    <!-- <input style="display: none" type="file" (change)="upload(fileInput.files)" #fileInput>
+    <button mat-button type="button" class="btn btn-info" (click)="fileInput.click()">Select File</button>
     <span *ngIf="uploadProgress > 0 && uploadProgress < 100">
         {{uploadProgress}}%
-    </span>
+    </span> -->
   </mat-card-content>
   <mat-card-actions>
     <div style="width: 100%; height: 30px; text-align: right">

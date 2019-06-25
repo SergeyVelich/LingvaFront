@@ -15,7 +15,6 @@ export class GroupComponent implements OnInit {
   public numberElements: number;
 
   constructor(private groupService: GroupService, private authService: AuthService) {
-    debugger;
     groupService.getAll(this.authService.authorizationHeaderValue).subscribe((response: any) => this.groupData = response);
     groupService.count(this.authService.authorizationHeaderValue).subscribe((response: number) => this.numberElements = response);
     this.currentGroup = this.setInitialValuesForGroupData();
@@ -32,12 +31,12 @@ export class GroupComponent implements OnInit {
       languageId: 1,
       languageName: '',
       description: '',
-      picture: '',
+      imagePath: '',
+      imageFile: null,
     }
   }
 
   public createOrUpdateGroup = function (group: any) {
-    debugger;
     let groupWithId;
     groupWithId = _.find(this.groupData, (el => el.id === group.id));
 
@@ -71,7 +70,6 @@ export class GroupComponent implements OnInit {
   }
 
   public refreshTable = function (params) {
-    debugger;
     this.groupService.getAll(this.authService.authorizationHeaderValue, params.filters, params.sorting, params.pageIndex, params.pageSize).subscribe((response: any) => this.groupData = response);
     this.groupService.count(this.authService.authorizationHeaderValue, params.filters).subscribe((response: number) => this.numberElements = response);
     this.currentGroup = this.setInitialValuesForGroupData();

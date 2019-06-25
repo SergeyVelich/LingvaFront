@@ -36,7 +36,7 @@ export class GroupGridComponent implements OnInit {
   constructor(private languageService: LanguageService, private authService: AuthService) {
     this.filterName = '';
     this.filterLanguage = 0;
-    this.displayedColumns = ["date", "name", "language", "description", "picture", "edit", "delete"];
+    this.displayedColumns = ["date", "name", "language", "description", "imagePath", "edit", "delete"];
   }
 
   ngOnInit() {
@@ -85,7 +85,6 @@ export class GroupGridComponent implements OnInit {
   }
 
   onChangeFilterDateFrom(filterValue: Date) {
-    debugger;
     let name = 'dateFrom';
     this.minFilterDate = this.filterDateFrom;
     if(filterValue == null){
@@ -133,7 +132,6 @@ export class GroupGridComponent implements OnInit {
   }
 
   onChangePage(event: any) {
-    debugger;
     this.refreshTable.emit({ filters: this.filters, sorting: this.sorting, pageIndex: event.pageIndex + 1, pageSize: event.pageSize});
   }
 }

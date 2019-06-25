@@ -137,7 +137,6 @@ export class GroupService extends BaseService {
         'Authorization': token,
       })
     };
-    debugger;
     return this.http.put<Group>(this.configService.resourceApiURI + '/group/update', group, httpOptions).pipe(catchError(this.handleError));
   }
   remove(group: Group, token: string): Observable<number> {
