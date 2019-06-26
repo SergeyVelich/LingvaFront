@@ -30,13 +30,20 @@
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
-    <!-- <input type="file" (change)="upload(fileInput.files)" #fileInput> -->
-    <!-- <input style="display: none" type="file" (change)="upload(fileInput.files)" #fileInput>
+
+    <input #fileInput type="file" accept='image/*' (change)="preview(fileInput.files)" style="display: none" />
     <button mat-button type="button" class="btn btn-info" (click)="fileInput.click()">Select File</button>
     <span *ngIf="uploadProgress > 0 && uploadProgress < 100">
-        {{uploadProgress}}%
-    </span> -->
+      {{uploadProgress}}%
+    </span>
+    <img #imgq class=group-add-or-update-form-image-preview [src]="imgURL" height="200" *ngIf="imgURL">
+    <span style="color:red;" *ngIf="message">{{message}}</span>
   </mat-card-content>
+
+
+
+
+
   <mat-card-actions>
     <div style="width: 100%; height: 30px; text-align: right">
       <span style="float: left">

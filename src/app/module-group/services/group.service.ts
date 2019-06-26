@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -131,13 +131,19 @@ export class GroupService extends BaseService {
     return this.http.post<Group>(this.configService.resourceApiURI + '/group/create', group, httpOptions).pipe(catchError(this.handleError));
   }
   update(group: Group, token: string): Observable<Group> {
+    debugger;
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json; charset=utf-8',
+        // 'Content-Type': 'multipart/form-data',
         'Authorization': token,
       })
     };
-    return this.http.put<Group>(this.configService.resourceApiURI + '/group/update', group, httpOptions).pipe(catchError(this.handleError));
+
+    debugger;
+    var g = group.imageFile;
+    g.append("group", JSON.stringify(group));
+
+    return this.http.put<Group>(this.configService.resourceApiURI + '/group/update', g, httpOptions).pipe(catchError(this.handleError));
   }
   remove(group: Group, token: string): Observable<number> {
     const httpOptions = {

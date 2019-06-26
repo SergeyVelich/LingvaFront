@@ -40,6 +40,10 @@ export class GroupAddOrUpdateComponent implements OnInit {
       imagePath: '',
       imageFile: null,
     }
+
+    this.imagePath = null;
+    this.imgURL = null;
+    this.message = null;
   };
 
   public newRecord() {
@@ -47,29 +51,53 @@ export class GroupAddOrUpdateComponent implements OnInit {
   }
 
   public addOrUpdateGroupRecord = function (event) {
+    debugger;
     this.groupCreated.emit(this.groupInfo);
     this.clearGroupInfo();
   };
 
-  upload(files) {
-    debugger;
-    if (files.length === 0)
+    public imagePath;
+    imgURL: any;
+    public message: string;
+   
+    preview(files) {
+      
+      if (files.length === 0)
         return;
-
-        this.groupInfo.imageFile = new FormData();
-
-    for (let file of files){
-        // this.groupInfo.imageFile.append(file.name, file);
+   
+      var mimeType = files[0].type;
+      if (mimeType.match(/image\/*/) == null) {
+        this.message = "Only images are supported.";
+        return;
+      }
+   
+      var reader = new FileReader();
+      this.imagePath = files;
+      reader.readAsDataURL(files[0]); 
+      reader.onload = (_event) => { 
+        this.imgURL = reader.result; 
+      }
+      
+      debugger;
+      this.groupInfo.imageFile = new FormData();
+      for (let file of files){
+          this.groupInfo.imageFile.append(file.name, file);
+      } 
     }
 
-    // const req = new HttpRequest('POST', `api/files`, formData, {
-    //     reportProgress: true,
-    // });
-
-    // this.http.request(req).subscribe(event => {
-    //     if (event.type === HttpEventType.UploadProgress)
-    //         this.uploadProgress = Math.round(100 * event.loaded / event.total);
-    //     else if (event instanceof HttpResponse)
-    //         console.log('Files uploaded!');
+    upload(files) {
+      debugger;
+      if (files.length === 0)
+          return;
+  
+      // // const req = new HttpRequest('POST', `api/files`, formData, {
+      // //     reportProgress: true,
+      // // });
+  
+      // // this.http.request(req).subscribe(event => {
+      // //     if (event.type === HttpEventType.UploadProgress)
+      // //         this.uploadProgress = Math.round(100 * event.loaded / event.total);
+      // //     else if (event instanceof HttpResponse)
+      // //         console.log('Files uploaded!');
     };
 }
