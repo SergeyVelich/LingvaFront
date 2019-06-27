@@ -17,13 +17,14 @@ export class FileService extends BaseService {
     super();
   }
 
-  getGroupPreview(groupId: string, token: string): Observable<Group> {
+  getGroupPreview(groupId: string, token: string): Observable<Blob> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json; charset=utf-8',
         'Authorization': token,
-      })
+      }),
+      responseType: 'blob' as 'json'
     };
-    return this.http.get<Group>(this.configService.resourceApiURI + '/group/getImage?id=' + groupId, httpOptions).pipe(catchError(this.handleError));
+    return this.http.get<Blob>(this.configService.resourceApiURI + '/group/getImage?id=' + groupId, httpOptions).pipe(catchError(this.handleError));
   }
 }  

@@ -3,6 +3,7 @@ import { GroupService } from '../../services/group.service'
 import * as _ from 'lodash';
 import { Group } from '../../models/group';
 import { AuthService } from '../../../module-account/services/auth/auth.service';
+import { FileService } from '../../../module-shared/services/file.service';
 
 @Component({
   selector: 'app-group',
@@ -19,7 +20,7 @@ export class GroupComponent implements OnInit {
 
   public params: any = { filters: null, sorting: null, pageIndex: this.defaultPageIndex, pageSize: this.defaultPageSize };
 
-  constructor(private groupService: GroupService, private authService: AuthService) {
+  constructor(private groupService: GroupService, private fileService: FileService, private authService: AuthService) {
     this.refreshTable();
     this.currentGroup = this.setInitialValuesForGroupData();
   }
@@ -35,7 +36,6 @@ export class GroupComponent implements OnInit {
       languageId: 1,
       languageName: '',
       description: '',
-      imagePath: '',
     }
   }
 
@@ -62,14 +62,10 @@ export class GroupComponent implements OnInit {
 
   public editClicked = function (record) {
     this.currentGroup = record;
-  };
-
-  public createClicked = function () {
-    this.currentGroup = this.setInitialValuesForGroupData();
+    this.getImageFromService();
   };
 
   public removeClicked(record) {
-    const deleteIndex = _.findIndex(this.groupData, { id: record.id });
     this.groupService.remove(record, this.authService.authorizationHeaderValue).subscribe(
       () => {
         this.refreshTable();
@@ -86,6 +82,36 @@ export class GroupComponent implements OnInit {
   public refreshTable() {
     this.groupService.getAll(this.authService.authorizationHeaderValue, this.params.filters, this.params.sorting, this.params.pageIndex, this.params.pageSize).subscribe((response: any) => this.groupData = response);
     this.groupService.count(this.authService.authorizationHeaderValue, this.params.filters).subscribe((response: number) => this.numberElements = response);
+  };
+
+  isImageLoading: boolean;
+  imageToShow: any;
+
+  getImageFromService() {
+    debugger;
+    this.isImageLoading = true;
+    this.fileService.getGroupPreview(String(this.currentGroup.id), this.authService.authorizationHeaderValue).subscribe(data => {
+      this.createImageFromBlob(data);
+      this.isImageLoading = false;
+    }, error => {
+      this.isImageLoading = false;
+      console.log(error);
+    });
+  }
+
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener("load", () => {
+      this.imageToShow = reader.result;
+    }, false);
+
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
+
+  public clearGroup = function () {
+    this.currentGroup = this.setInitialValuesForGroupData();
   };
 }
 

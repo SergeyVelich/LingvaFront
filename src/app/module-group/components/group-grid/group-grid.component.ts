@@ -38,7 +38,7 @@ export class GroupGridComponent implements OnInit {
   constructor(private languageService: LanguageService, private authService: AuthService) {
     this.filterName = '';
     this.filterLanguage = 0;
-    this.displayedColumns = ["date", "name", "language", "description", "imagePath", "edit", "delete"];
+    this.displayedColumns = ["date", "name", "language", "description", "image", "edit", "delete"];
     this.pageSize = this.defaultPageSize;
   }
 
