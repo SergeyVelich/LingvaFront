@@ -6,9 +6,8 @@ export class Group {
     languageName: string;
     description: string;
     imagePath: string;
-    imageFile: FormData;
 
-    constructor(id: number, name: string, date: Date, languageId: number, languageName: string, description: string, imagePath: string, imageFile: FormData) {
+    constructor(id: number, name: string, date: Date, languageId: number, languageName: string, description: string, imagePath: string) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -16,6 +15,5 @@ export class Group {
         this.languageName = languageName;
         this.description = description;
         this.imagePath = imagePath;
-        this.imageFile = imageFile;
     }
 }

@@ -15,9 +15,12 @@ import { Sort } from '@angular/material';
 export class GroupGridComponent implements OnInit {
   @Input() groupData: Array<any>;
   @Input() length: number;
+  @Input() defaultPageSize: number;
+  @Input() pageSizeOptions: number[];
+
   @Output() removeClicked = new EventEmitter<any>();
   @Output() editClicked = new EventEmitter<any>();
-  @Output() refreshTable = new EventEmitter<any>();
+  @Output() refreshPage = new EventEmitter<any>();
 
   languages: Language[];
   filters = new Map<string, Filter>();
@@ -28,8 +31,7 @@ export class GroupGridComponent implements OnInit {
   filterDateTo: Date;
   minFilterDate: Date;
   maxFilterDate: Date;
-  pageSize = 5;
-  pageSizeOptions: number[] = [5, 10, 25];
+  pageSize: number;
 
   public displayedColumns: string[];
 
@@ -37,6 +39,7 @@ export class GroupGridComponent implements OnInit {
     this.filterName = '';
     this.filterLanguage = 0;
     this.displayedColumns = ["date", "name", "language", "description", "imagePath", "edit", "delete"];
+    this.pageSize = this.defaultPageSize;
   }
 
   ngOnInit() {
@@ -114,12 +117,12 @@ export class GroupGridComponent implements OnInit {
 
   onChangeFilter(filter: Filter) {  
     this.filters.set(filter.propertyName, filter);
-    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting}); 
+    this.refreshPage.emit({ filters: this.filters, sorting: this.sorting}); 
   }
 
   onClearFilter(filterName: string) {  
     this.filters.delete(filterName);
-    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting}); 
+    this.refreshPage.emit({ filters: this.filters, sorting: this.sorting}); 
   }
 
   sortData(sort: Sort) {
@@ -128,10 +131,10 @@ export class GroupGridComponent implements OnInit {
     }
 
     this.sorting = new Sorter(sort.active, sort.direction);
-    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting});
+    this.refreshPage.emit({ filters: this.filters, sorting: this.sorting});
   }
 
   onChangePage(event: any) {
-    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting, pageIndex: event.pageIndex + 1, pageSize: event.pageSize});
+    this.refreshPage.emit({ filters: this.filters, sorting: this.sorting, pageIndex: event.pageIndex + 1, pageSize: event.pageSize});
   }
 }

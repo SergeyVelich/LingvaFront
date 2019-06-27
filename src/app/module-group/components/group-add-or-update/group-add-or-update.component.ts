@@ -16,6 +16,7 @@ export class GroupAddOrUpdateComponent implements OnInit {
   languages: Language[];
   
   public uploadProgress: number;
+  public files: any;
 
   public buttonTextSave = 'Save';
   public buttonTextNew = 'New';
@@ -38,12 +39,12 @@ export class GroupAddOrUpdateComponent implements OnInit {
       languageId: 1,
       description: '',
       imagePath: '',
-      imageFile: null,
     }
 
     this.imagePath = null;
     this.imgURL = null;
     this.message = null;
+    this.files = null;
   };
 
   public newRecord() {
@@ -51,8 +52,7 @@ export class GroupAddOrUpdateComponent implements OnInit {
   }
 
   public addOrUpdateGroupRecord = function (event) {
-    debugger;
-    this.groupCreated.emit(this.groupInfo);
+    this.groupCreated.emit({group: this.groupInfo, files: this.files});
     this.clearGroupInfo();
   };
 
@@ -78,11 +78,7 @@ export class GroupAddOrUpdateComponent implements OnInit {
         this.imgURL = reader.result; 
       }
       
-      debugger;
-      this.groupInfo.imageFile = new FormData();
-      for (let file of files){
-          this.groupInfo.imageFile.append(file.name, file);
-      } 
+      this.files = files;
     }
 
     upload(files) {
