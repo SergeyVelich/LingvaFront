@@ -3,7 +3,6 @@ import { GroupService } from '../../services/group.service'
 import * as _ from 'lodash';
 import { Group } from '../../models/group';
 import { AuthService } from '../../../module-account/services/auth/auth.service';
-import { FileService } from '../../../module-shared/services/file.service';
 
 @Component({
   selector: 'app-group',
@@ -20,12 +19,13 @@ export class GroupComponent implements OnInit {
 
   public params: any = { filters: null, sorting: null, pageIndex: this.defaultPageIndex, pageSize: this.defaultPageSize };
 
-  constructor(private groupService: GroupService, private fileService: FileService, private authService: AuthService) {
-    this.refreshTable();
-    this.currentGroup = this.setInitialValuesForGroupData();
+  constructor(private groupService: GroupService, private authService: AuthService) {
+
   }
 
   ngOnInit() {
+    this.refreshTable();
+    this.currentGroup = this.setInitialValuesForGroupData();
   }
 
   private setInitialValuesForGroupData(): Group {
@@ -40,8 +40,7 @@ export class GroupComponent implements OnInit {
   }
 
   public createOrUpdateGroup = function (data) {
-    let groupWithId;
-    groupWithId = _.find(this.groupData, (el => el.id === data.group.id));
+    let groupWithId = _.find(this.groupData, (el => el.id === data.group.id));
 
     if (groupWithId) {
       this.groupService.update(data.group, data.files, this.authService.authorizationHeaderValue).subscribe(
@@ -62,7 +61,6 @@ export class GroupComponent implements OnInit {
 
   public editClicked = function (record) {
     this.currentGroup = record;
-    this.getImageFromService();
   };
 
   public removeClicked(record) {
@@ -83,32 +81,6 @@ export class GroupComponent implements OnInit {
     this.groupService.getAll(this.authService.authorizationHeaderValue, this.params.filters, this.params.sorting, this.params.pageIndex, this.params.pageSize).subscribe((response: any) => this.groupData = response);
     this.groupService.count(this.authService.authorizationHeaderValue, this.params.filters).subscribe((response: number) => this.numberElements = response);
   };
-
-  isImageLoading: boolean;
-  imageToShow: any;
-
-  getImageFromService() {
-    debugger;
-    this.isImageLoading = true;
-    this.fileService.getGroupPreview(String(this.currentGroup.id), this.authService.authorizationHeaderValue).subscribe(data => {
-      this.createImageFromBlob(data);
-      this.isImageLoading = false;
-    }, error => {
-      this.isImageLoading = false;
-      console.log(error);
-    });
-  }
-
-  createImageFromBlob(image: Blob) {
-    let reader = new FileReader();
-    reader.addEventListener("load", () => {
-      this.imageToShow = reader.result;
-    }, false);
-
-    if (image) {
-      reader.readAsDataURL(image);
-    }
-  }
 
   public clearGroup = function () {
     this.currentGroup = this.setInitialValuesForGroupData();

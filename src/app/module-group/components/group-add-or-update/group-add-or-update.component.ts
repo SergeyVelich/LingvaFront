@@ -3,6 +3,7 @@ import { Group } from '../../models/group';
 import { Language } from '../../models/language';
 import { LanguageService } from '../../services/language.service';
 import { AuthService } from '../../../module-account/services/auth/auth.service';
+import { FileService } from '../../../module-shared/services/file.service';
 
 @Component({
   selector: 'app-group-add-or-update',
@@ -13,17 +14,17 @@ export class GroupAddOrUpdateComponent implements OnInit, OnChanges {
   @Output() groupCreated = new EventEmitter<any>();
   @Output() groupCleared = new EventEmitter<any>();
   @Input() groupInfo: Group;
-  @Input() imageToShow: any;
 
   languages: Language[];
 
   public uploadProgress: number;
+  public message: string;
   public files: any;
 
   public buttonTextSave = 'Save';
   public buttonTextNew = 'New';
 
-  constructor(private languageService: LanguageService, private authService: AuthService) {
+  constructor(private languageService: LanguageService, private authService: AuthService, private fileService: FileService) {
   }
   ngOnInit() {
     this.languageService.getAll(this.authService.authorizationHeaderValue).subscribe((response: any) => {
@@ -33,7 +34,8 @@ export class GroupAddOrUpdateComponent implements OnInit, OnChanges {
   ngOnChanges() {
     this.message = null;
     this.files = null;
-    // this.imageToShow = null;
+    this.imageToShow = null;
+    this.getImageFromService();
   }
 
   public newRecord() {
@@ -43,8 +45,6 @@ export class GroupAddOrUpdateComponent implements OnInit, OnChanges {
   public addOrUpdateGroupRecord = function (event) {
     this.groupCreated.emit({ group: this.groupInfo, files: this.files });
   };
-
-  public message: string;
 
   preview(files) {
 
@@ -64,5 +64,31 @@ export class GroupAddOrUpdateComponent implements OnInit, OnChanges {
     }
 
     this.files = files;
+  }
+
+  isImageLoading: boolean;
+  imageToShow: any;
+
+  getImageFromService() {
+    debugger;
+    this.isImageLoading = true;
+    this.fileService.getGroupPreview(String(this.groupInfo.id), this.authService.authorizationHeaderValue).subscribe(data => {
+      this.createImageFromBlob(data);
+      this.isImageLoading = false;
+    }, error => {
+      this.isImageLoading = false;
+      console.log(error);
+    });
+  }
+
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener("load", () => {
+      this.imageToShow = reader.result;
+    }, false);
+
+    if (image) {
+      reader.readAsDataURL(image);
+    }
   }
 }

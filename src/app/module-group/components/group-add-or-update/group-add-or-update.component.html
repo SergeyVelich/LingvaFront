@@ -35,14 +35,18 @@
     <img class=group-add-or-update-form-image-preview [src]="imageToShow" alt="Place image title"
       *ngIf="!isImageLoading; else noImageFound">
     <ng-template #noImageFound>
-      <img src="fallbackImage.png" alt="Fallbackimage">
+      <img src="assets/images/fallbackImage.png" alt="Fallbackimage">
     </ng-template>
-    <span style="color:red;" *ngIf="message">{{message}}</span>
-    <input #fileInput type="file" accept='image/*' (change)="preview(fileInput.files)" style="display: none" />
-    <button mat-button type="button" class="btn btn-info" (click)="fileInput.click()">Select File</button>
-    <span *ngIf="uploadProgress > 0 && uploadProgress < 100">
-      {{uploadProgress}}%
-    </span>
+    <div>
+      <input #fileInput type="file" accept='image/*' (change)="preview(fileInput.files)" style="display: none" />
+      <button mat-button type="button" class="btn btn-info" (click)="fileInput.click()">Select File</button>
+      <div *ngIf="uploadProgress > 0 && uploadProgress < 100">
+        {{uploadProgress}}%
+      </div>
+      <div style="color:red;" *ngIf="message">
+        {{message}}
+      </div>
+    </div>
   </mat-card-content>
 
 
