@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgxSpinnerModule } from 'ngx-spinner'; 
 import { AuthService } from '../../module-account/services/auth/auth.service';
 import { MockAuthService } from '../../module-test/mocks/mock-auth.service';
 import { TopSecretService } from '../services/top-secret.service';
@@ -13,14 +12,13 @@ describe('TopSecretComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TopSecretComponent ],
-      imports: [NgxSpinnerModule],
+      declarations: [TopSecretComponent],
       providers: [
-        {provide: AuthService, useClass: MockAuthService},
-        {provide: TopSecretService, useClass: MockTopSecretService}
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: TopSecretService, useClass: MockTopSecretService }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

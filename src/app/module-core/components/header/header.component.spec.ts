@@ -11,11 +11,13 @@ describe('HeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderComponent ],
+      declarations: [HeaderComponent],
       imports: [HttpClientTestingModule],
-      providers: [{provide: AuthService, useClass: MockAuthService}]
+      providers: [
+        { provide: AuthService, useClass: MockAuthService }
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

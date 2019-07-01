@@ -8,9 +8,9 @@ describe('GroupAddOrUpdateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GroupAddOrUpdateComponent ]
+      declarations: [GroupAddOrUpdateComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

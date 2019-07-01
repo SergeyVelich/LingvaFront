@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GroupService } from '../../services/group.service'
 import * as _ from 'lodash';
 import { Group } from '../../models/group';
+import { AuthService } from '../../../module-account/services/auth/auth.service';
 
 @Component({
   selector: 'app-group',
@@ -9,60 +10,61 @@ import { Group } from '../../models/group';
   styleUrls: ['./group.component.css']
 })
 export class GroupComponent implements OnInit {
-  public groupData: Array<any>;
   public currentGroup: any;
+  public refreshingTable: boolean;
 
-  constructor (private groupService: GroupService) {
-    groupService.getAll().subscribe((response: any) => this.groupData = response);
-    this.currentGroup = this.setInitialValuesForGroupData();
+  constructor(private groupService: GroupService, private authService: AuthService) {
+
   }
 
   ngOnInit() {
+    this.currentGroup = this.setInitialValuesForGroupData();
   }
 
-  private setInitialValuesForGroupData() : Group {
+  private setInitialValuesForGroupData(): Group {
     return {
       id: 0,
       name: '',
       date: new Date(),
       languageId: 1,
+      languageName: '',
       description: '',
-      picture: '',
     }
   }
 
-public createOrUpdateGroup = function(group: any) {
-    let groupWithId;
-    groupWithId = _.find(this.groupData, (el => el.id === group.id));
-
-    if (groupWithId) {
-      const updateIndex = _.findIndex(this.groupData, {id: groupWithId.id});
-      this.groupService.update(group).subscribe(
-        () => this.groupData.splice(updateIndex, 1, group)
+  public createOrUpdateGroup = function (data) {
+    if (data.group.id) {
+      this.groupService.update(data.group, data.files, this.authService.authorizationHeaderValue).subscribe(
+        () => {
+          this.refreshingTable = true;
+        }
       );
     } else {
-      this.groupService.create(group).subscribe(
-        () => this.groupData.push(group)
+      this.groupService.create(data.group, data.files, this.authService.authorizationHeaderValue).subscribe(
+        () => {
+          this.refreshingTable = true;
+        }
       );
     }
 
     this.currentGroup = this.setInitialValuesForGroupData();
   };
 
-  public editClicked = function(record) {
+  public editClicked = function (record) {
     this.currentGroup = record;
   };
 
-  public createClicked = function() {
-    this.currentGroup = this.setInitialValuesForGroupData(); 
-  };
-
   public removeClicked(record) {
-    const deleteIndex = _.findIndex(this.groupData, {id: record.id});
-    this.groupService.remove(record).subscribe(
-      () => this.groupData.splice(deleteIndex, 1)
+    this.groupService.remove(record, this.authService.authorizationHeaderValue).subscribe(
+      () => {
+        this.refreshingTable = true;
+      }
     );
   }
+
+  public clearGroup = function () {
+    this.currentGroup = this.setInitialValuesForGroupData();
+  };
 }
 
 

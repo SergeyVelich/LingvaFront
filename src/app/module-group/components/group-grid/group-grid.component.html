@@ -1,70 +1,83 @@
-<button type="button" class="btn btn-info" (click)="newRecord(groupInfo)">New</button>
-<!-- <table mat-table [dataSource]="groupData" class="mat-elevation-z8">
-
-    <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef> Date </th>
-        <td mat-cell *matCellDef="let groupInfo"> {{groupInfo.date}} </td>
-      </ng-container>
-  
-    <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let groupInfo"> {{groupInfo.name}} </td>
-      </ng-container>
-  
-    <ng-container matColumnDef="language">
-        <th mat-header-cell *matHeaderCellDef> Language </th>
-        <td mat-cell *matCellDef="let groupInfo"> {{groupInfo.language}} </td>
-      </ng-container>
-  
-    <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef> Description </th>
-        <td mat-cell *matCellDef="let groupInfo"> {{groupInfo.description}} </td>
-      </ng-container>
-
-    <ng-container matColumnDef="picture">
-        <th mat-header-cell *matHeaderCellDef> Picture </th>
-        <td mat-cell *matCellDef="let groupInfo"> {{groupInfo.picture}} </td>
-      </ng-container>
- 
-    <ng-container matColumnDef="edit">
-        <th mat-header-cell *matHeaderCellDef> Edit </th>
-        <td mat-cell *matCellDef="let groupInfo"> <button type="button" class="btn btn-info"matTooltip="Click Edit Button"(click)="editRecord(groupInfo)">Edit</button> </td>
-      </ng-container>
-
-      <ng-container matColumnDef="delete">
-          <th mat-header-cell *matHeaderCellDef> Delete </th>
-          <td mat-cell *matCellDef="let groupInfo"> <button type="button" class="btn btn-danger"matTooltip="Click Delete Button"(click)="deleteRecord(groupInfo)">Delete</button> </td>
-        </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table> -->
-
-<table>
-  <thead>
+<mat-card class=group-grid-form>
+  <ul class="hr">
+    <li>
+      <div>
+        <mat-form-field class="filter-field">
+          <mat-label>Date from</mat-label>
+          <input matInput [(ngModel)]="filterDateFrom" [max]="maxFilterDate" [matDatepicker]="filterDateFromPicker"
+            placeholder="Choose a date" autocomplete="off" (dateChange)="onChangeFilterDateFrom(filterDateFrom)">
+          <mat-datepicker-toggle matSuffix [for]="filterDateFromPicker"></mat-datepicker-toggle>
+          <mat-datepicker #filterDateFromPicker></mat-datepicker>
+          <button mat-button matSuffix mat-icon-button aria-label="Clear"
+            (click)="filterDateFrom=null; onChangeFilterDateFrom(filterDateFrom)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field class="filter-field">
+          <mat-label>Date to</mat-label>
+          <input matInput [(ngModel)]="filterDateTo" [min]="minFilterDate" [matDatepicker]="filterDateToPicker"
+            placeholder="Choose a date" autocomplete="off" (dateChange)="onChangeFilterDateTo(filterDateTo)">
+          <mat-datepicker-toggle matSuffix [for]="filterDateToPicker"></mat-datepicker-toggle>
+          <mat-datepicker #filterDateToPicker></mat-datepicker>
+          <button mat-button matSuffix mat-icon-button aria-label="Clear"
+            (click)="filterDateTo=null; onChangeFilterDateTo(filterDateTo)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </li>
+    <li>
+      <div>
+        <mat-form-field class="filter-field">
+          <mat-label>Name</mat-label>
+          <input matInput name="Name" [(ngModel)]="filterName" (change)="onChangeFilterName($event.target.value)"
+            placeholder="Name" autocomplete="off">
+          <button mat-button matSuffix mat-icon-button aria-label="Clear"
+            (click)="filterName=''; onChangeFilterName(filterName)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field class="filter-field">
+          <mat-label>Language</mat-label>
+          <mat-select name="Language" [(ngModel)]="filterLanguage" placeholder="Language"
+            (selectionChange)="onChangeFilterLanguage($event.value)">
+            <mat-option *ngFor="let language of languages" [value]="language.id">{{language.name}}</mat-option>
+          </mat-select>
+          <button mat-button matSuffix mat-icon-button aria-label="Clear"
+            (click)="filterLanguage=0; onChangeFilterLanguage(filterLanguage); $event.stopPropagation()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </li>
+  </ul>
+  <table class="table-sort" matSort matSortActive="name" matSortDirection="desc" matSortDisableClear="true"
+    (matSortChange)="sortData($event)">
+    <thead>
       <tr>
-          <th class="tbl2">Title</th>  
-          <th class="tbl2">Date</th>  
-          <th class="tbl2">Language</th>  
-          <th class="tbl2">Description</th>  
-          <th class="tbl2">Picture</th>  
-          <th class="tbl2">Edit</th>  
-          <th class="tbl2">Delete</th> 
+        <th mat-sort-header="name" class="tbl2" role="columnheader">Title</th>
+        <th mat-sort-header="date" class="tbl2" role="columnheader">Date</th>
+        <th mat-sort-header="language" class="tbl2" role="columnheader">Language</th>
+        <th mat-sort-header="description" class="tbl2" role="columnheader">Description</th>
+        <th class="tbl2-image">Image</th>
+        <th class="tbl2"></th>
       </tr>
-  </thead>
-  <tbody>
-      <tr *ngFor="let groupInfo of groupData"> 
-          <td class="tbl2">{{groupInfo.name}}</td>  
-          <td class="tbl2">{{groupInfo.date | date: 'dd/MM/yyyy' }}</td>  
-          <td class="tbl2">{{groupInfo.languageId}}</td>  
-          <td class="tbl2">{{groupInfo.description}}</td>  
-          <td class="tbl2">{{groupInfo.picture}}</td> 
-          <td class="tbl2">  
-            <button type="button" class="btn btn-info" (click)="editRecord(groupInfo)">Edit</button>  
-          </td>  
-          <td class="tbl2">  
-            <button type="button" class="btn btn-danger" (click)="deleteRecord(groupInfo)">Delete</button>  
-          </td>  
+    </thead>
+    <tbody>
+      <tr *ngFor="let groupInfo of groupData; trackBy: trackByFn">
+        <td class="tbl2">{{groupInfo.name}}</td>
+        <td class="tbl2">{{groupInfo.date | date: 'dd/MM/yyyy' }}</td>
+        <td class="tbl2">{{groupInfo.languageName}}</td>
+        <td class="tbl2">{{groupInfo.description}}</td>
+        <td class="tbl2-image">Image</td>
+        <td class="tbl2">
+          <button mat-button color="primary" (click)="editRecord(groupInfo)">Edit</button>
+          <button mat-button color="warn" (click)="deleteRecord(groupInfo)">Delete</button>
+        </td>
       </tr>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+  <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+    (page)="onChangePage($event)">
+  </mat-paginator>
+</mat-card>
