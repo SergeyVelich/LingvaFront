@@ -65,7 +65,6 @@ export class AuthService extends BaseService {
   }
 
   signout() {
-    debugger;
     this.manager.signoutRedirect();
     this.manager.removeUser();
     this.manager.clearStaleState();
@@ -79,7 +78,7 @@ export class AuthService extends BaseService {
       authority: authApiURI,
       redirect_uri: originUri + '/auth-callback',
       post_logout_redirect_uri: originUri,
-      response_type: "id_token token",
+      response_type: "code",
       scope: "openid profile email resourceapi",
       filterProtocolClaims: true,
       loadUserInfo: true,

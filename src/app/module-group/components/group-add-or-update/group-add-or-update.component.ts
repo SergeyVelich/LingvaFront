@@ -14,6 +14,8 @@ export class GroupAddOrUpdateComponent implements OnInit {
   @Input() groupInfo: Group;
 
   languages: Language[];
+  
+  public uploadProgress: number;
 
   public buttonTextSave = 'Save';
   public buttonTextNew = 'New';
@@ -35,12 +37,12 @@ export class GroupAddOrUpdateComponent implements OnInit {
       date: new Date(),
       languageId: 1,
       description: '',
-      picture: '',
+      imagePath: '',
+      imageFile: null,
     }
   };
 
   public newRecord() {
-    debugger;
     this.clearGroupInfo();
   }
 
@@ -48,4 +50,26 @@ export class GroupAddOrUpdateComponent implements OnInit {
     this.groupCreated.emit(this.groupInfo);
     this.clearGroupInfo();
   };
+
+  upload(files) {
+    debugger;
+    if (files.length === 0)
+        return;
+
+        this.groupInfo.imageFile = new FormData();
+
+    for (let file of files){
+        // this.groupInfo.imageFile.append(file.name, file);
+    }
+
+    // const req = new HttpRequest('POST', `api/files`, formData, {
+    //     reportProgress: true,
+    // });
+
+    // this.http.request(req).subscribe(event => {
+    //     if (event.type === HttpEventType.UploadProgress)
+    //         this.uploadProgress = Math.round(100 * event.loaded / event.total);
+    //     else if (event instanceof HttpResponse)
+    //         console.log('Files uploaded!');
+    };
 }

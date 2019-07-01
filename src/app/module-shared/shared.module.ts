@@ -16,10 +16,27 @@ import { PasswordValidatorDirective } from './directives/password-validator.dire
 import { InputButtonClearComponent } from './components/input-button-clear/input-button-clear.component';
 
 import {
-  MatButtonModule, MatMenuModule, MatDatepickerModule, MatNativeDateModule, MatIconModule, MatCardModule, MatSidenavModule, MatFormFieldModule,
-  MatInputModule, MatTooltipModule, MatToolbarModule, MatSelectModule, MatPaginatorModule, MatProgressSpinnerModule, MatSortModule, MatTableModule
+  MatButtonModule, MatMenuModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatSidenavModule, MatFormFieldModule,
+  MatInputModule, MatTooltipModule, MatToolbarModule, MatSelectModule, MatPaginatorModule, MatProgressSpinnerModule, MatSortModule, MatTableModule,
+  MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter
 } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import * as _moment from 'moment';
+import { MatFileUploadModule } from 'angular-material-fileupload';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD.MM.YYYY',
+  },
+  display: {
+    dateInput: 'DD.MM.YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'DD.MM.YYYY',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 const modules = [
   MatButtonModule,
@@ -38,7 +55,8 @@ const modules = [
   MatTableModule,
   MatPaginatorModule,
   MatSortModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatFileUploadModule
 ];
 
 @NgModule({
@@ -55,7 +73,7 @@ const modules = [
     FormsModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
-    modules
+    modules,
   ],
   exports: [
     CommonModule,
@@ -68,13 +86,14 @@ const modules = [
     CompareValidatorDirective,
     PasswordValidatorDirective,
     modules,
-    InputButtonClearComponent
+    InputButtonClearComponent,
   ],
   providers: [
-  ]
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class SharedModule {
   constructor() {
-    debugger;
   }
 }

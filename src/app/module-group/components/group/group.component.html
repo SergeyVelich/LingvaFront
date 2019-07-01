@@ -4,7 +4,7 @@
         </app-group-add-or-update>
     </div>
     <div class="col-md-8">
-        <app-group-grid [(groupData)]="groupData" (editClicked)="editClicked($event)"
-            (createClicked)="createClicked($event)" (removeClicked)="removeClicked($event)"></app-group-grid>
+        <app-group-grid [(groupData)]="groupData" [(length)]="numberElements" (editClicked)="editClicked($event)"
+            (createClicked)="createClicked($event)" (removeClicked)="removeClicked($event)" (refreshTable)="refreshTable($event)"></app-group-grid>
     </div>
 </div>

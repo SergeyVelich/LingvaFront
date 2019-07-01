@@ -2,6 +2,9 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Language } from '../../models/language';
 import { LanguageService } from '../../services/language.service';
 import { AuthService } from '../../../module-account/services/auth/auth.service';
+import { Filter } from 'src/app/module-shared/models/filter';
+import { Sorter } from 'src/app/module-shared/models/sorter';
+import { Sort } from '@angular/material';
 
 @Component({
   selector: 'app-group-grid',
@@ -11,17 +14,29 @@ import { AuthService } from '../../../module-account/services/auth/auth.service'
 
 export class GroupGridComponent implements OnInit {
   @Input() groupData: Array<any>;
+  @Input() length: number;
   @Output() removeClicked = new EventEmitter<any>();
   @Output() editClicked = new EventEmitter<any>();
-  @Output() applyFilters = new EventEmitter<any>();
+  @Output() refreshTable = new EventEmitter<any>();
 
   languages: Language[];
-  filters: [string, string];
+  filters = new Map<string, Filter>();
+  sorting = new Sorter('Name', 'Desc');
+  filterName: string;
+  filterLanguage: number;
+  filterDateFrom: Date;
+  filterDateTo: Date;
+  minFilterDate: Date;
+  maxFilterDate: Date;
+  pageSize = 5;
+  pageSizeOptions: number[] = [5, 10, 25];
 
   public displayedColumns: string[];
 
   constructor(private languageService: LanguageService, private authService: AuthService) {
-    this.displayedColumns = ["date", "name", "language", "description", "picture", "edit", "delete"];
+    this.filterName = '';
+    this.filterLanguage = 0;
+    this.displayedColumns = ["date", "name", "language", "description", "imagePath", "edit", "delete"];
   }
 
   ngOnInit() {
@@ -43,14 +58,80 @@ export class GroupGridComponent implements OnInit {
     return item.id; // уникальный id, соответствующий элементу
   }
 
-  applyFilter(filter) {
-    if(this.filters.find(value => value == filter.name)){
-      this.filters[filter.name] = filter.value;      
+  onChangeFilterName(filterValue: string) {
+    let name = 'name';
+    if(filterValue == null || filterValue.trim().length == 0){
+      this.onClearFilter(name);
     }
     else{
-      this.filters.join(filter.value);      
+      let value = filterValue.toLowerCase();
+      let operation = '=';
+  
+      this.onChangeFilter(new Filter(name, value, operation));           
     }
-    //  = filterValue.trim().toLowerCase();
-    this.applyFilters.emit(this.filters);   
+  }
+
+  onChangeFilterLanguage(filterValue: number) {
+    let name = 'languageId';
+    if(filterValue == null || filterValue == 0){
+      this.onClearFilter(name);
+    }
+    else{
+      let value = filterValue.toString();
+      let operation = '=';
+  
+      this.onChangeFilter(new Filter(name, value, operation));           
+    }
+  }
+
+  onChangeFilterDateFrom(filterValue: Date) {
+    let name = 'dateFrom';
+    this.minFilterDate = this.filterDateFrom;
+    if(filterValue == null){
+      this.onClearFilter(name);
+    }
+    else{
+      let value = new Date(filterValue).toUTCString();
+      let operation = '=';
+  
+      this.onChangeFilter(new Filter(name, value, operation));           
+    }
+  }
+  
+  onChangeFilterDateTo(filterValue: Date) {
+    let name = 'dateTo';
+    this.maxFilterDate = this.filterDateTo;
+    if(filterValue == null){
+      this.onClearFilter(name);
+    }
+    else{
+      let value = new Date(filterValue).toUTCString();
+      let operation = '=';
+  
+      this.onChangeFilter(new Filter(name, value, operation));           
+    }
+  }
+
+  onChangeFilter(filter: Filter) {  
+    this.filters.set(filter.propertyName, filter);
+    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting}); 
+  }
+
+  onClearFilter(filterName: string) {  
+    this.filters.delete(filterName);
+    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting}); 
+  }
+
+  sortData(sort: Sort) {
+    if (!sort.active || sort.direction === '') {
+      return;
+    }
+
+    this.sorting = new Sorter(sort.active, sort.direction);
+    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting});
+  }
+
+  onChangePage(event: any) {
+    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting, pageIndex: event.pageIndex + 1, pageSize: event.pageSize});
   }
 }
