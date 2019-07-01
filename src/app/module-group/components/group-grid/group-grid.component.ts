@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnChanges } from '@angular/core';
 import { Language } from '../../models/language';
+import { GroupService } from '../../services/group.service'
 import { LanguageService } from '../../services/language.service';
 import { AuthService } from '../../../module-account/services/auth/auth.service';
 import { Filter } from 'src/app/module-shared/models/filter';
@@ -12,12 +13,18 @@ import { Sort } from '@angular/material';
   styleUrls: ['./group-grid.component.css']
 })
 
-export class GroupGridComponent implements OnInit {
-  @Input() groupData: Array<any>;
-  @Input() length: number;
+export class GroupGridComponent implements OnInit, OnChanges {
+  @Input() refreshingTable: boolean;
   @Output() removeClicked = new EventEmitter<any>();
   @Output() editClicked = new EventEmitter<any>();
-  @Output() refreshTable = new EventEmitter<any>();
+  @Output() groupCleared = new EventEmitter<any>();
+
+  public length: number;
+  public readonly defaultPageSize = 5;
+  public readonly defaultPageIndex = 1;
+  public readonly pageSizeOptions: number[] = [5, 10, 25];
+  public groupData: Array<any>;
+  public params: any = { filters: null, sorting: null, pageIndex: this.defaultPageIndex, pageSize: this.defaultPageSize };
 
   languages: Language[];
   filters = new Map<string, Filter>();
@@ -28,15 +35,15 @@ export class GroupGridComponent implements OnInit {
   filterDateTo: Date;
   minFilterDate: Date;
   maxFilterDate: Date;
-  pageSize = 5;
-  pageSizeOptions: number[] = [5, 10, 25];
+  pageSize: number;
 
   public displayedColumns: string[];
 
-  constructor(private languageService: LanguageService, private authService: AuthService) {
+  constructor(private groupService: GroupService, private languageService: LanguageService, private authService: AuthService) {
     this.filterName = '';
     this.filterLanguage = 0;
-    this.displayedColumns = ["date", "name", "language", "description", "imagePath", "edit", "delete"];
+    this.displayedColumns = ["date", "name", "language", "description", "image", "edit", "delete"];
+    this.pageSize = this.defaultPageSize;
   }
 
   ngOnInit() {
@@ -45,8 +52,20 @@ export class GroupGridComponent implements OnInit {
     });
   }
 
+  ngOnChanges() {
+    this.refreshTable();
+    this.refreshingTable = false;
+  }
+
+  public refreshTable() {
+    this.groupService.getAll(this.authService.authorizationHeaderValue, this.params.filters, this.params.sorting, this.params.pageIndex, this.params.pageSize).subscribe((response: any) => this.groupData = response);
+    this.groupService.count(this.authService.authorizationHeaderValue, this.params.filters).subscribe((response: number) => this.length = response);
+    this.groupCleared.emit();
+  };
+
   public deleteRecord(record) {
     this.removeClicked.emit(record);
+    this.refreshTable();
   }
 
   public editRecord(record) {
@@ -114,12 +133,14 @@ export class GroupGridComponent implements OnInit {
 
   onChangeFilter(filter: Filter) {  
     this.filters.set(filter.propertyName, filter);
-    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting}); 
+    this.params = { filters: this.filters, sorting: this.sorting};
+    this.refreshTable();
   }
 
   onClearFilter(filterName: string) {  
     this.filters.delete(filterName);
-    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting}); 
+    this.params = { filters: this.filters, sorting: this.sorting};
+    this.refreshTable();
   }
 
   sortData(sort: Sort) {
@@ -128,10 +149,12 @@ export class GroupGridComponent implements OnInit {
     }
 
     this.sorting = new Sorter(sort.active, sort.direction);
-    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting});
+    this.params = { filters: this.filters, sorting: this.sorting};
+    this.refreshTable();
   }
 
   onChangePage(event: any) {
-    this.refreshTable.emit({ filters: this.filters, sorting: this.sorting, pageIndex: event.pageIndex + 1, pageSize: event.pageSize});
+    this.params = { filters: this.filters, sorting: this.sorting, pageIndex: event.pageIndex + 1, pageSize: event.pageSize};
+    this.refreshTable();
   }
 }

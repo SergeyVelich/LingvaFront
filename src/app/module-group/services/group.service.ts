@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -26,34 +26,34 @@ export class GroupService extends BaseService {
       })
     };
 
-    let queryParam = '?'; 
-    if(filters != null){
+    let queryParam = '?';
+    if (filters != null) {
       filters.forEach((filter, key) => {
-        if(queryParam != '?'){
+        if (queryParam != '?') {
           queryParam = queryParam + '&';
         }
         queryParam = queryParam + filter.propertyName + filter.operation + filter.propertyValue;
-      });  
+      });
     }
-    if(sorting != null){
-      if(queryParam != '?'){
+    if (sorting != null) {
+      if (queryParam != '?') {
         queryParam = queryParam + '&';
       }
       queryParam = queryParam + 'sortProperty=' + sorting.sortProperty + '&sortOrder=' + sorting.sortOrder;
     }
-    if(pageIndex != null){
-      if(queryParam != '?'){
+    if (pageIndex != null) {
+      if (queryParam != '?') {
         queryParam = queryParam + '&';
       }
       queryParam = queryParam + 'pageIndex=' + pageIndex;
     }
-    if(pageSize != null){
-      if(queryParam != '?'){
+    if (pageSize != null) {
+      if (queryParam != '?') {
         queryParam = queryParam + '&';
       }
       queryParam = queryParam + 'pageSize=' + pageSize;
     }
-    if(queryParam === '?'){
+    if (queryParam === '?') {
       queryParam = '';
     }
 
@@ -86,7 +86,7 @@ export class GroupService extends BaseService {
     //   headers: headers,
     //   params: params,
     // };
-    
+
     // return this.http.get<Group[]>(this.configService.resourceApiURI + '/group', {params, headers}).pipe(catchError(this.handleError));
   }
   count(token: string, filters?: any): Observable<number> {
@@ -97,16 +97,16 @@ export class GroupService extends BaseService {
       })
     };
 
-    let queryParam = '?'; 
-    if(filters != null){
+    let queryParam = '?';
+    if (filters != null) {
       filters.forEach((filter, key) => {
-        if(queryParam != '?'){
+        if (queryParam != '?') {
           queryParam = queryParam + '&';
         }
         queryParam = queryParam + filter.propertyName + filter.operation + filter.propertyValue;
-      });  
+      });
     }
-    if(queryParam === '?'){
+    if (queryParam === '?') {
       queryParam = '';
     }
 
@@ -121,23 +121,42 @@ export class GroupService extends BaseService {
     };
     return this.http.get<Group>(this.configService.resourceApiURI + '/group/get?id=' + groupId, httpOptions).pipe(catchError(this.handleError));
   }
-  create(group: Group, token: string): Observable<Group> {
+  create(group: Group, files: any, token: string): Observable<Group> {
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json; charset=utf-8',
+        // 'Content-Type': 'application/json; charset=utf-8',
         'Authorization': token,
       })
     };
-    return this.http.post<Group>(this.configService.resourceApiURI + '/group/create', group, httpOptions).pipe(catchError(this.handleError));
+
+    let body = new FormData();
+    body.append("group", JSON.stringify(group));
+    if(files){
+      for (let file of files) {
+        body.append(file.name, file);
+      }
+    }
+
+    return this.http.post<Group>(this.configService.resourceApiURI + '/group/create', body, httpOptions).pipe(catchError(this.handleError));
   }
-  update(group: Group, token: string): Observable<Group> {
+  update(group: Group, files: any, token: string): Observable<Group> {
+    debugger;
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json; charset=utf-8',
+        // 'Content-Type': 'multipart/form-data',
         'Authorization': token,
       })
     };
-    return this.http.put<Group>(this.configService.resourceApiURI + '/group/update', group, httpOptions).pipe(catchError(this.handleError));
+
+    let body = new FormData();
+    body.append("group", JSON.stringify(group));
+    if(files){
+      for (let file of files) {
+        body.append(file.name, file);
+      }
+    }
+
+    return this.http.put<Group>(this.configService.resourceApiURI + '/group/update', body, httpOptions).pipe(catchError(this.handleError));
   }
   remove(group: Group, token: string): Observable<number> {
     const httpOptions = {

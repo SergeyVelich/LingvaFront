@@ -24,7 +24,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import * as _moment from 'moment';
-import { MatFileUploadModule } from 'angular-material-fileupload';
 
 export const MY_FORMATS = {
   parse: {
@@ -56,7 +55,6 @@ const modules = [
   MatPaginatorModule,
   MatSortModule,
   MatProgressSpinnerModule,
-  MatFileUploadModule
 ];
 
 @NgModule({

@@ -10,17 +10,15 @@ import { AuthService } from '../../../module-account/services/auth/auth.service'
   styleUrls: ['./group.component.css']
 })
 export class GroupComponent implements OnInit {
-  public groupData: Array<any>;
   public currentGroup: any;
-  public numberElements: number;
+  public refreshingTable: boolean;
 
   constructor(private groupService: GroupService, private authService: AuthService) {
-    groupService.getAll(this.authService.authorizationHeaderValue).subscribe((response: any) => this.groupData = response);
-    groupService.count(this.authService.authorizationHeaderValue).subscribe((response: number) => this.numberElements = response);
-    this.currentGroup = this.setInitialValuesForGroupData();
+
   }
 
   ngOnInit() {
+    this.currentGroup = this.setInitialValuesForGroupData();
   }
 
   private setInitialValuesForGroupData(): Group {
@@ -31,23 +29,21 @@ export class GroupComponent implements OnInit {
       languageId: 1,
       languageName: '',
       description: '',
-      imagePath: '',
-      imageFile: null,
     }
   }
 
-  public createOrUpdateGroup = function (group: any) {
-    let groupWithId;
-    groupWithId = _.find(this.groupData, (el => el.id === group.id));
-
-    if (groupWithId) {
-      const updateIndex = _.findIndex(this.groupData, { id: groupWithId.id });
-      this.groupService.update(group, this.authService.authorizationHeaderValue).subscribe(
-        (response: Group) => this.groupData.splice(updateIndex, 1, response)
+  public createOrUpdateGroup = function (data) {
+    if (data.group.id) {
+      this.groupService.update(data.group, data.files, this.authService.authorizationHeaderValue).subscribe(
+        () => {
+          this.refreshingTable = true;
+        }
       );
     } else {
-      this.groupService.create(group, this.authService.authorizationHeaderValue).subscribe(
-        (response: Group) => this.groupData.push(response)
+      this.groupService.create(data.group, data.files, this.authService.authorizationHeaderValue).subscribe(
+        () => {
+          this.refreshingTable = true;
+        }
       );
     }
 
@@ -58,20 +54,15 @@ export class GroupComponent implements OnInit {
     this.currentGroup = record;
   };
 
-  public createClicked = function () {
-    this.currentGroup = this.setInitialValuesForGroupData();
-  };
-
   public removeClicked(record) {
-    const deleteIndex = _.findIndex(this.groupData, { id: record.id });
     this.groupService.remove(record, this.authService.authorizationHeaderValue).subscribe(
-      () => this.groupData.splice(deleteIndex, 1)
+      () => {
+        this.refreshingTable = true;
+      }
     );
   }
 
-  public refreshTable = function (params) {
-    this.groupService.getAll(this.authService.authorizationHeaderValue, params.filters, params.sorting, params.pageIndex, params.pageSize).subscribe((response: any) => this.groupData = response);
-    this.groupService.count(this.authService.authorizationHeaderValue, params.filters).subscribe((response: number) => this.numberElements = response);
+  public clearGroup = function () {
     this.currentGroup = this.setInitialValuesForGroupData();
   };
 }

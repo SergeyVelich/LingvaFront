@@ -1,75 +1,96 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnChanges } from '@angular/core';
 import { Group } from '../../models/group';
 import { Language } from '../../models/language';
 import { LanguageService } from '../../services/language.service';
 import { AuthService } from '../../../module-account/services/auth/auth.service';
+import { FileService } from '../../../module-shared/services/file.service';
+import { IfStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-group-add-or-update',
   templateUrl: './group-add-or-update.component.html',
   styleUrls: ['./group-add-or-update.component.css']
 })
-export class GroupAddOrUpdateComponent implements OnInit {
+export class GroupAddOrUpdateComponent implements OnInit, OnChanges {
   @Output() groupCreated = new EventEmitter<any>();
+  @Output() groupCleared = new EventEmitter<any>();
   @Input() groupInfo: Group;
 
   languages: Language[];
-  
+
   public uploadProgress: number;
+  public message: string;
+  public files: any;
 
   public buttonTextSave = 'Save';
   public buttonTextNew = 'New';
 
-  constructor(private languageService: LanguageService, private authService: AuthService) {
-    this.clearGroupInfo();
+  constructor(private languageService: LanguageService, private authService: AuthService, private fileService: FileService) {
   }
   ngOnInit() {
     this.languageService.getAll(this.authService.authorizationHeaderValue).subscribe((response: any) => {
       this.languages = response;
     });
   }
-
-  private clearGroupInfo = function () {
-    // Create an empty group object
-    this.groupInfo = {
-      id: 0,
-      name: '',
-      date: new Date(),
-      languageId: 1,
-      description: '',
-      imagePath: '',
-      imageFile: null,
-    }
-  };
+  
+  ngOnChanges() {
+    this.message = null;
+    this.files = null;
+    this.imageToShow = null;
+    this.getImageFromService();
+  }
 
   public newRecord() {
-    this.clearGroupInfo();
+    this.groupCleared.emit();
   }
 
   public addOrUpdateGroupRecord = function (event) {
-    this.groupCreated.emit(this.groupInfo);
-    this.clearGroupInfo();
+    this.groupCreated.emit({ group: this.groupInfo, files: this.files });
   };
 
-  upload(files) {
-    debugger;
+  preview(files) {
+
     if (files.length === 0)
-        return;
+      return;
 
-        this.groupInfo.imageFile = new FormData();
-
-    for (let file of files){
-        // this.groupInfo.imageFile.append(file.name, file);
+    var mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = "Only images are supported.";
+      return;
     }
 
-    // const req = new HttpRequest('POST', `api/files`, formData, {
-    //     reportProgress: true,
-    // });
+    var reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = (_event) => {
+      this.imageToShow = reader.result;
+    }
 
-    // this.http.request(req).subscribe(event => {
-    //     if (event.type === HttpEventType.UploadProgress)
-    //         this.uploadProgress = Math.round(100 * event.loaded / event.total);
-    //     else if (event instanceof HttpResponse)
-    //         console.log('Files uploaded!');
-    };
+    this.files = files;
+  }
+
+  isImageLoading: boolean;
+  imageToShow: any;
+
+  getImageFromService() {
+    debugger;
+    this.isImageLoading = true;
+    this.fileService.getGroupPreview(String(this.groupInfo.id), this.authService.authorizationHeaderValue).subscribe(data => {
+      this.createImageFromBlob(data);
+      this.isImageLoading = false;  
+    }, error => {
+      this.imageToShow = null;
+      console.log(error);
+    });
+  }
+
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener("load", () => {
+      this.imageToShow = reader.result;
+    }, false);
+
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
 }
