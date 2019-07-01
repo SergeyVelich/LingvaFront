@@ -4,6 +4,7 @@ import { Language } from '../../models/language';
 import { LanguageService } from '../../services/language.service';
 import { AuthService } from '../../../module-account/services/auth/auth.service';
 import { FileService } from '../../../module-shared/services/file.service';
+import { IfStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-group-add-or-update',
@@ -31,6 +32,7 @@ export class GroupAddOrUpdateComponent implements OnInit, OnChanges {
       this.languages = response;
     });
   }
+  
   ngOnChanges() {
     this.message = null;
     this.files = null;
@@ -74,9 +76,9 @@ export class GroupAddOrUpdateComponent implements OnInit, OnChanges {
     this.isImageLoading = true;
     this.fileService.getGroupPreview(String(this.groupInfo.id), this.authService.authorizationHeaderValue).subscribe(data => {
       this.createImageFromBlob(data);
-      this.isImageLoading = false;
+      this.isImageLoading = false;  
     }, error => {
-      this.isImageLoading = false;
+      this.imageToShow = null;
       console.log(error);
     });
   }

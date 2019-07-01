@@ -1,12 +1,14 @@
 <div class="row">
     <div class="col-md-4">
-        <app-group-add-or-update (groupCreated)="createOrUpdateGroup($event)" (groupCleared)="clearGroup($event)"
-            [groupInfo]="currentGroup">
+        <app-group-add-or-update [groupInfo]="currentGroup" 
+            (groupCreated)="createOrUpdateGroup($event)"
+            (groupCleared)="clearGroup($event)">
         </app-group-add-or-update>
     </div>
     <div class="col-md-8">
-        <app-group-grid [(groupData)]="groupData" [(length)]="numberElements" [defaultPageSize]="defaultPageSize"
-            [pageSizeOptions]="pageSizeOptions" (editClicked)="editClicked($event)"
-            (removeClicked)="removeClicked($event)" (refreshPage)="refreshPage($event)"></app-group-grid>
+        <app-group-grid [refreshingTable]="refreshingTable" 
+            (editClicked)="editClicked($event)"
+            (removeClicked)="removeClicked($event)" 
+            (groupCleared)="clearGroup($event)"></app-group-grid>
     </div>
 </div>

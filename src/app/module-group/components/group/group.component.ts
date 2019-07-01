@@ -10,21 +10,14 @@ import { AuthService } from '../../../module-account/services/auth/auth.service'
   styleUrls: ['./group.component.css']
 })
 export class GroupComponent implements OnInit {
-  public groupData: Array<any>;
   public currentGroup: any;
-  public numberElements: number;
-  public readonly defaultPageSize = 5;
-  public readonly defaultPageIndex = 1;
-  public readonly pageSizeOptions: number[] = [5, 10, 25];
-
-  public params: any = { filters: null, sorting: null, pageIndex: this.defaultPageIndex, pageSize: this.defaultPageSize };
+  public refreshingTable: boolean;
 
   constructor(private groupService: GroupService, private authService: AuthService) {
 
   }
 
   ngOnInit() {
-    this.refreshTable();
     this.currentGroup = this.setInitialValuesForGroupData();
   }
 
@@ -40,18 +33,16 @@ export class GroupComponent implements OnInit {
   }
 
   public createOrUpdateGroup = function (data) {
-    let groupWithId = _.find(this.groupData, (el => el.id === data.group.id));
-
-    if (groupWithId) {
+    if (data.group.id) {
       this.groupService.update(data.group, data.files, this.authService.authorizationHeaderValue).subscribe(
         () => {
-          this.refreshTable();
+          this.refreshingTable = true;
         }
       );
     } else {
       this.groupService.create(data.group, data.files, this.authService.authorizationHeaderValue).subscribe(
         () => {
-          this.refreshTable();
+          this.refreshingTable = true;
         }
       );
     }
@@ -66,21 +57,10 @@ export class GroupComponent implements OnInit {
   public removeClicked(record) {
     this.groupService.remove(record, this.authService.authorizationHeaderValue).subscribe(
       () => {
-        this.refreshTable();
+        this.refreshingTable = true;
       }
     );
   }
-
-  public refreshPage = function (params) {
-    this.params = params;
-    this.refreshTable();
-    this.currentGroup = this.setInitialValuesForGroupData();
-  };
-
-  public refreshTable() {
-    this.groupService.getAll(this.authService.authorizationHeaderValue, this.params.filters, this.params.sorting, this.params.pageIndex, this.params.pageSize).subscribe((response: any) => this.groupData = response);
-    this.groupService.count(this.authService.authorizationHeaderValue, this.params.filters).subscribe((response: number) => this.numberElements = response);
-  };
 
   public clearGroup = function () {
     this.currentGroup = this.setInitialValuesForGroupData();
