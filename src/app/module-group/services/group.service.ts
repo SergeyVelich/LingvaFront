@@ -140,7 +140,6 @@ export class GroupService extends BaseService {
     return this.http.post<Group>(this.configService.resourceApiURI + '/group/create', body, httpOptions).pipe(catchError(this.handleError));
   }
   update(group: Group, files: any, token: string): Observable<Group> {
-    debugger;
     const httpOptions = {
       headers: new HttpHeaders({
         // 'Content-Type': 'multipart/form-data',

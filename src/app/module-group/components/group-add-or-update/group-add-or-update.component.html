@@ -33,7 +33,7 @@
 
 
     <img class=group-add-or-update-form-image-preview [src]="imageToShow" alt="Place image title"
-      *ngIf="!isImageLoading; else noImageFound">
+      *ngIf="isImageLoaded; else noImageFound">
     <ng-template #noImageFound>
       <img src="assets/images/fallbackImage.png" alt="Fallbackimage">
     </ng-template>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { Language } from '../../models/language';
 import { GroupService } from '../../services/group.service'
 import { LanguageService } from '../../services/language.service';
@@ -6,6 +6,7 @@ import { AuthService } from '../../../module-account/services/auth/auth.service'
 import { Filter } from 'src/app/module-shared/models/filter';
 import { Sorter } from 'src/app/module-shared/models/sorter';
 import { Sort } from '@angular/material';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-group-grid',
@@ -13,8 +14,8 @@ import { Sort } from '@angular/material';
   styleUrls: ['./group-grid.component.css']
 })
 
-export class GroupGridComponent implements OnInit, OnChanges {
-  @Input() refreshingTable: boolean;
+export class GroupGridComponent implements OnInit {
+  @Input() refreshTableEvent: Observable<void>;
   @Output() currentGroupChanged = new EventEmitter<any>();
 
   public groupData: Array<any>;
@@ -49,19 +50,19 @@ export class GroupGridComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.refreshTable(); 
+    this.refreshTableEvent.subscribe(() => this.refreshTable());
+
     this.languageService.getAll(this.authService.authorizationHeaderValue).subscribe((response: any) => {
       this.languages = response;
     });
   }
 
   ngOnChanges() {
-    debugger;
-    this.refreshTable();
-    this.refreshingTable = false;
+
   }
 
   public refreshTable() {
-    debugger;
     let params: any = { filters: this.filters, sorting: this.sorting, pageIndex: this.pageIndex, pageSize: this.pageSize };
     this.groupService.getAll(this.authService.authorizationHeaderValue, params.filters, params.sorting, params.pageIndex, params.pageSize).subscribe((response: any) => this.groupData = response);
     this.groupService.count(this.authService.authorizationHeaderValue, params.filters).subscribe((response: number) => this.length = response);

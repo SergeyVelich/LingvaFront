@@ -1,57 +1,65 @@
-import { Component, EventEmitter, Input, Output, OnInit, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { Group } from '../../models/group';
 import { Language } from '../../models/language';
 import { LanguageService } from '../../services/language.service';
 import { AuthService } from '../../../module-account/services/auth/auth.service';
 import { FileService } from '../../../module-shared/services/file.service';
 import { GroupService } from '../../services/group.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-group-add-or-update',
   templateUrl: './group-add-or-update.component.html',
   styleUrls: ['./group-add-or-update.component.css']
 })
-export class GroupAddOrUpdateComponent implements OnInit, OnChanges {
-  @Input() groupInfo: Group;
+export class GroupAddOrUpdateComponent implements OnInit {
+  @Input() currentGroupChangedEvent: Observable<Group>;
   @Output() groupChanged = new EventEmitter<any>();
 
   languages: Language[];
 
+  public groupInfo: Group;
   public uploadProgress: number;
   public message: string;
   public files: any;
-  public isImageLoading: boolean;
+  public isImageLoaded: boolean;
   public imageToShow: any;
 
   public buttonTextSave = 'Save';
   public buttonTextNew = 'New';
 
   constructor(private groupService: GroupService, private languageService: LanguageService, private authService: AuthService, private fileService: FileService) {
-  
+    this.setInitialValuesForGroupData();
   }
 
-  ngOnInit() {
+  ngOnInit() {   
+    this.currentGroupChangedEvent.subscribe(response => {
+        this.setInitialValuesForGroupData(response);
+    });
+
     this.languageService.getAll(this.authService.authorizationHeaderValue).subscribe((response: any) => {
       this.languages = response;
     });
   }
   
   ngOnChanges() {
-    if(!this.groupInfo){
-      this.setInitialValuesForGroupData();
-    };
+
   }
 
-  private setInitialValuesForGroupData() {
-    debugger;
-    this.groupInfo = 
-    {
-      id: 0,
-      name: '',
-      date: new Date(),
-      languageId: 1,
-      languageName: '',
-      description: '',
+  private setInitialValuesForGroupData(group?: Group) {
+    if(group){
+      this.groupInfo = group;
+    }
+    else{
+      this.groupInfo = 
+      {
+        id: 0,
+        name: '',
+        date: new Date(),
+        languageId: 1,
+        languageName: '',
+        description: '',
+      }
     }
 
     this.message = null;
@@ -65,7 +73,6 @@ export class GroupAddOrUpdateComponent implements OnInit, OnChanges {
   }
 
   public saveRecord = function (event) {
-    debugger;
     if (this.groupInfo.id) {
       this.groupService.update(this.groupInfo, this.files, this.authService.authorizationHeaderValue).subscribe(
         () => {
@@ -76,7 +83,6 @@ export class GroupAddOrUpdateComponent implements OnInit, OnChanges {
     } else {
       this.groupService.create(this.groupInfo, this.files, this.authService.authorizationHeaderValue).subscribe(
         () => {
-          debugger;
           this.groupChanged.emit();
           this.setInitialValuesForGroupData();
         }
@@ -85,7 +91,7 @@ export class GroupAddOrUpdateComponent implements OnInit, OnChanges {
   };
 
   preview(files) {
-
+    debugger; 
     if (files.length === 0)
       return;
 
@@ -99,6 +105,7 @@ export class GroupAddOrUpdateComponent implements OnInit, OnChanges {
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
       this.imageToShow = reader.result;
+      this.isImageLoaded = true;
     }
 
     this.files = files;
@@ -106,10 +113,13 @@ export class GroupAddOrUpdateComponent implements OnInit, OnChanges {
 
   getImageFromService() {
     debugger;
-    this.isImageLoading = true;
+    if(!this.groupInfo.id){
+      return;
+    }
+    this.isImageLoaded = false;
     this.fileService.getGroupPreview(String(this.groupInfo.id), this.authService.authorizationHeaderValue).subscribe(data => {
       this.createImageFromBlob(data);
-      this.isImageLoading = false;  
+      this.isImageLoaded = true;  
     }, error => {
       this.imageToShow = null;
       console.log(error);
