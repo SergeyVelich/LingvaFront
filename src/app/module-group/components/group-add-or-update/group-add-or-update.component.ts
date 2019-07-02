@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit, OnChanges, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Group } from '../../models/group';
 import { Language } from '../../models/language';
 import { LanguageService } from '../../services/language.service';
@@ -19,7 +19,6 @@ export class GroupAddOrUpdateComponent implements OnInit {
   languages: Language[];
 
   public groupInfo: Group;
-  public uploadProgress: number;
   public message: string;
   public files: any;
   public isImageLoaded: boolean;
@@ -41,30 +40,17 @@ export class GroupAddOrUpdateComponent implements OnInit {
       this.languages = response;
     });
   }
-  
-  ngOnChanges() {
-
-  }
 
   private setInitialValuesForGroupData(group?: Group) {
-    if(group){
-      this.groupInfo = group;
-    }
-    else{
-      this.groupInfo = 
-      {
-        id: 0,
-        name: '',
-        date: new Date(),
-        languageId: 1,
-        languageName: '',
-        description: '',
-      }
+    if(!group){
+      group = new Group();     
     }
 
+    this.groupInfo = group;
     this.message = null;
     this.files = null;
     this.imageToShow = null;
+    this.isImageLoaded = false;
     this.getImageFromService();
   }
 
@@ -91,7 +77,6 @@ export class GroupAddOrUpdateComponent implements OnInit {
   };
 
   preview(files) {
-    debugger; 
     if (files.length === 0)
       return;
 

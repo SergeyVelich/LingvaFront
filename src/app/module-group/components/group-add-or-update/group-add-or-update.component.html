@@ -40,9 +40,6 @@
     <div>
       <input #fileInput type="file" accept='image/*' (change)="preview(fileInput.files)" style="display: none" />
       <button mat-button type="button" class="btn btn-info" (click)="fileInput.click()">Select File</button>
-      <div *ngIf="uploadProgress > 0 && uploadProgress < 100">
-        {{uploadProgress}}%
-      </div>
       <div style="color:red;" *ngIf="message">
         {{message}}
       </div>

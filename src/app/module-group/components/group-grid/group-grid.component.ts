@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit, OnChanges, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Language } from '../../models/language';
 import { GroupService } from '../../services/group.service'
 import { LanguageService } from '../../services/language.service';
@@ -56,10 +56,6 @@ export class GroupGridComponent implements OnInit {
     this.languageService.getAll(this.authService.authorizationHeaderValue).subscribe((response: any) => {
       this.languages = response;
     });
-  }
-
-  ngOnChanges() {
-
   }
 
   public refreshTable() {
