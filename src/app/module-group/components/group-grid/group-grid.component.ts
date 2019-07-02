@@ -15,17 +15,17 @@ import { Sort } from '@angular/material';
 
 export class GroupGridComponent implements OnInit, OnChanges {
   @Input() refreshingTable: boolean;
-  @Output() removeClicked = new EventEmitter<any>();
-  @Output() editClicked = new EventEmitter<any>();
-  @Output() groupCleared = new EventEmitter<any>();
+  @Output() currentGroupChanged = new EventEmitter<any>();
 
+  public groupData: Array<any>;
+
+  //pagening
   public length: number;
   public readonly defaultPageSize = 5;
   public readonly defaultPageIndex = 1;
   public readonly pageSizeOptions: number[] = [5, 10, 25];
-  public groupData: Array<any>;
-  public params: any = { filters: null, sorting: null, pageIndex: this.defaultPageIndex, pageSize: this.defaultPageSize };
 
+  //filters
   languages: Language[];
   filters = new Map<string, Filter>();
   sorting = new Sorter('Name', 'Desc');
@@ -35,6 +35,7 @@ export class GroupGridComponent implements OnInit, OnChanges {
   filterDateTo: Date;
   minFilterDate: Date;
   maxFilterDate: Date;
+  pageIndex: number;
   pageSize: number;
 
   public displayedColumns: string[];
@@ -43,6 +44,7 @@ export class GroupGridComponent implements OnInit, OnChanges {
     this.filterName = '';
     this.filterLanguage = 0;
     this.displayedColumns = ["date", "name", "language", "description", "image", "edit", "delete"];
+    this.pageIndex = this.defaultPageIndex;
     this.pageSize = this.defaultPageSize;
   }
 
@@ -53,25 +55,30 @@ export class GroupGridComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+    debugger;
     this.refreshTable();
     this.refreshingTable = false;
   }
 
   public refreshTable() {
-    this.groupService.getAll(this.authService.authorizationHeaderValue, this.params.filters, this.params.sorting, this.params.pageIndex, this.params.pageSize).subscribe((response: any) => this.groupData = response);
-    this.groupService.count(this.authService.authorizationHeaderValue, this.params.filters).subscribe((response: number) => this.length = response);
-    this.groupCleared.emit();
+    debugger;
+    let params: any = { filters: this.filters, sorting: this.sorting, pageIndex: this.pageIndex, pageSize: this.pageSize };
+    this.groupService.getAll(this.authService.authorizationHeaderValue, params.filters, params.sorting, params.pageIndex, params.pageSize).subscribe((response: any) => this.groupData = response);
+    this.groupService.count(this.authService.authorizationHeaderValue, params.filters).subscribe((response: number) => this.length = response);
+    this.currentGroupChanged.emit();
   };
-
-  public deleteRecord(record) {
-    this.removeClicked.emit(record);
-    this.refreshTable();
-  }
 
   public editRecord(record) {
     const clonedRecord = Object.assign({}, record);
-    this.editClicked.emit(clonedRecord);
+    this.currentGroupChanged.emit(clonedRecord);
   }
+
+  public deleteRecord(record) {
+    this.groupService.remove(record, this.authService.authorizationHeaderValue).subscribe(
+      () => {
+        this.refreshTable();
+      });   
+  };
 
   trackByFn(index, item) {
     return item.id; // уникальный id, соответствующий элементу
@@ -133,13 +140,11 @@ export class GroupGridComponent implements OnInit, OnChanges {
 
   onChangeFilter(filter: Filter) {  
     this.filters.set(filter.propertyName, filter);
-    this.params = { filters: this.filters, sorting: this.sorting};
     this.refreshTable();
   }
 
   onClearFilter(filterName: string) {  
     this.filters.delete(filterName);
-    this.params = { filters: this.filters, sorting: this.sorting};
     this.refreshTable();
   }
 
@@ -149,12 +154,12 @@ export class GroupGridComponent implements OnInit, OnChanges {
     }
 
     this.sorting = new Sorter(sort.active, sort.direction);
-    this.params = { filters: this.filters, sorting: this.sorting};
     this.refreshTable();
   }
 
   onChangePage(event: any) {
-    this.params = { filters: this.filters, sorting: this.sorting, pageIndex: event.pageIndex + 1, pageSize: event.pageSize};
+    this.pageIndex = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
     this.refreshTable();
   }
 }

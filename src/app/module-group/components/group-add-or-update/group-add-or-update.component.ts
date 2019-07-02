@@ -4,7 +4,7 @@ import { Language } from '../../models/language';
 import { LanguageService } from '../../services/language.service';
 import { AuthService } from '../../../module-account/services/auth/auth.service';
 import { FileService } from '../../../module-shared/services/file.service';
-import { IfStmt } from '@angular/compiler';
+import { GroupService } from '../../services/group.service';
 
 @Component({
   selector: 'app-group-add-or-update',
@@ -12,21 +12,24 @@ import { IfStmt } from '@angular/compiler';
   styleUrls: ['./group-add-or-update.component.css']
 })
 export class GroupAddOrUpdateComponent implements OnInit, OnChanges {
-  @Output() groupCreated = new EventEmitter<any>();
-  @Output() groupCleared = new EventEmitter<any>();
   @Input() groupInfo: Group;
+  @Output() groupChanged = new EventEmitter<any>();
 
   languages: Language[];
 
   public uploadProgress: number;
   public message: string;
   public files: any;
+  public isImageLoading: boolean;
+  public imageToShow: any;
 
   public buttonTextSave = 'Save';
   public buttonTextNew = 'New';
 
-  constructor(private languageService: LanguageService, private authService: AuthService, private fileService: FileService) {
+  constructor(private groupService: GroupService, private languageService: LanguageService, private authService: AuthService, private fileService: FileService) {
+  
   }
+
   ngOnInit() {
     this.languageService.getAll(this.authService.authorizationHeaderValue).subscribe((response: any) => {
       this.languages = response;
@@ -34,6 +37,23 @@ export class GroupAddOrUpdateComponent implements OnInit, OnChanges {
   }
   
   ngOnChanges() {
+    if(!this.groupInfo){
+      this.setInitialValuesForGroupData();
+    };
+  }
+
+  private setInitialValuesForGroupData() {
+    debugger;
+    this.groupInfo = 
+    {
+      id: 0,
+      name: '',
+      date: new Date(),
+      languageId: 1,
+      languageName: '',
+      description: '',
+    }
+
     this.message = null;
     this.files = null;
     this.imageToShow = null;
@@ -41,11 +61,27 @@ export class GroupAddOrUpdateComponent implements OnInit, OnChanges {
   }
 
   public newRecord() {
-    this.groupCleared.emit();
+    this.setInitialValuesForGroupData();
   }
 
-  public addOrUpdateGroupRecord = function (event) {
-    this.groupCreated.emit({ group: this.groupInfo, files: this.files });
+  public saveRecord = function (event) {
+    debugger;
+    if (this.groupInfo.id) {
+      this.groupService.update(this.groupInfo, this.files, this.authService.authorizationHeaderValue).subscribe(
+        () => {
+          this.groupChanged.emit();
+          this.setInitialValuesForGroupData();
+        }
+      );
+    } else {
+      this.groupService.create(this.groupInfo, this.files, this.authService.authorizationHeaderValue).subscribe(
+        () => {
+          debugger;
+          this.groupChanged.emit();
+          this.setInitialValuesForGroupData();
+        }
+      );
+    }
   };
 
   preview(files) {
@@ -67,9 +103,6 @@ export class GroupAddOrUpdateComponent implements OnInit, OnChanges {
 
     this.files = files;
   }
-
-  isImageLoading: boolean;
-  imageToShow: any;
 
   getImageFromService() {
     debugger;
