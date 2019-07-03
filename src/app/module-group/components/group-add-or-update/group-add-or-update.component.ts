@@ -31,9 +31,9 @@ export class GroupAddOrUpdateComponent implements OnInit {
     this.setInitialValuesForGroupData();
   }
 
-  ngOnInit() {   
+  ngOnInit() {
     this.currentGroupChangedEvent.subscribe(response => {
-        this.setInitialValuesForGroupData(response);
+      this.setInitialValuesForGroupData(response);
     });
 
     this.languageService.getAll(this.authService.authorizationHeaderValue).subscribe((response: any) => {
@@ -42,8 +42,8 @@ export class GroupAddOrUpdateComponent implements OnInit {
   }
 
   private setInitialValuesForGroupData(group?: Group) {
-    if(!group){
-      group = new Group();     
+    if (!group) {
+      group = new Group();
     }
 
     this.groupInfo = group;
@@ -98,13 +98,13 @@ export class GroupAddOrUpdateComponent implements OnInit {
 
   getImageFromService() {
     debugger;
-    if(!this.groupInfo.id){
+    if (!this.groupInfo.id) {
       return;
     }
     this.isImageLoaded = false;
     this.fileService.getGroupPreview(String(this.groupInfo.id), this.authService.authorizationHeaderValue).subscribe(data => {
       this.createImageFromBlob(data);
-      this.isImageLoaded = true;  
+      this.isImageLoaded = true;
     }, error => {
       this.imageToShow = null;
       console.log(error);
