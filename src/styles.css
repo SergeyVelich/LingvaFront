@@ -46,18 +46,11 @@ table {
     -webkit-box-shadow: 0 0 4px rgba(0,0,0,0.10);
     -moz-box-shadow: 0 0 4px rgba(0,0,0,0.10);
     box-shadow: 0 0 4px rgba(0,0,0,0.10);
-}
-
-table {
     border-collapse: collapse;
     border-spacing: 0;
 }
 
-table thead:first-child tr:first-child th, table tbody:first-child tr:first-child th, table tbody:first-child tr:first-child td {
-    border-top: 0;
-}
-
-table thead:first-child tr th, table thead:first-child tr td {
+table thead:first-child tr th, table thead:first-child tr td, table thead:first-child tr:first-child th, table tbody:first-child tr:first-child th, table tbody:first-child tr:first-child td {
     border-top: 0;
 }
 
@@ -79,3 +72,20 @@ table th, table td {
     text-align: left;
     border-top: 1px solid #ddd;
 }
+
+.error-message{
+    color:red;
+}
+
+.mat-sort-header-container {
+    align-items: center;
+}
+
+th[role=columnheader]:not(.no-sort) {
+    cursor: pointer;
+}
+
+th[role=columnheader]:not(.no-sort):hover:after {
+    visibility: visible;
+    opacity: 1;
+} 

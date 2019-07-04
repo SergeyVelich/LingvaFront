@@ -46,17 +46,15 @@
           <span>Download</span>
         </button>
       </div>
-      <div style="color:red;" *ngIf="message">
+      <div class="error-message" *ngIf="message">
         {{message}}
       </div>
     </div>
   </mat-card-content>
   <mat-card-actions>
-    <div style="width: 100%; height: 30px; text-align: right">
-      <span style="float: left">
-        <button mat-button type="button" class="btn btn-info" (click)="newRecord($event)">{{buttonTextNew}}</button>
-      </span>
-      <button mat-button type="button" class="btn btn-info" (click)="saveRecord($event)">{{buttonTextSave}}</button>
+    <div class="buttons-panel">
+      <button mat-button type="button" class="btn btn-info mat-card-actions-leftcolumn" (click)="newRecord($event)">{{buttonTextNew}}</button>
+      <button mat-button type="button" class="btn btn-info mat-card-actions-rightcolumn" (click)="saveRecord($event)">{{buttonTextSave}}</button>
     </div>
   </mat-card-actions>
 </mat-card>

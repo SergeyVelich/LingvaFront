@@ -21,7 +21,7 @@ export class GroupAddOrUpdateComponent implements OnInit {
   public groupInfo: Group;
   public message: string;
   public files: any;
-  public isImageLoaded: boolean;
+  public isImageLoaded: boolean = false;
   public imageToShow: any;
 
   public buttonTextSave = 'Save';
@@ -97,17 +97,16 @@ export class GroupAddOrUpdateComponent implements OnInit {
   }
 
   getImageFromService() {
-    debugger;
-    if (!this.groupInfo.id) {
+       if (!this.groupInfo.id) {
       return;
     }
     this.isImageLoaded = false;
+    debugger;
     this.fileService.getGroupPreview(String(this.groupInfo.id), this.authService.authorizationHeaderValue).subscribe(data => {
       this.createImageFromBlob(data);
       this.isImageLoaded = true;
     }, error => {
       this.imageToShow = null;
-      console.log(error);
     });
   }
 

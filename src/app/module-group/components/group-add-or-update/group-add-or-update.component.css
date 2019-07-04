@@ -10,24 +10,27 @@
   border: 0;
   background: none;
   width: 100%;
+  height: 250px;
 } 
 
 .upload-area-image {
+  display:block;
   padding: 0;
   border: 0;
   background: none;
   
-  margin: auto;
-
   width: 100%;
-  height: 250px;
+  height: 100%;
+  object-fit:contain;
 
   border-radius: 5px;
-  cursor: pointer;
   transition: 0.3s;
 }
 
-.upload-area-image:hover {opacity: 0.7;}
+.upload-area-image:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
 
 .upload-area-button-download {
   display:inline-block;
@@ -42,12 +45,15 @@
   font-family:Arial, Helvetica, sans-serif;
   font-size:20px;
   
-  background-color:rgba(0,0,0,.4);
+  background: rgba(80, 80, 80);
+  opacity: 0.5;
   padding:10px 30px;
 
   border: 0;
   border-radius: 5px;
+}
 
+.upload-area-button-download:hover {
   cursor: pointer;
 }
 
@@ -63,7 +69,6 @@
   opacity: 0;
   height: 50px;
   transition: opacity .4s;
-  box-sizing: border-box;
   margin: auto;
   padding: 8px;
   width: 50px;
@@ -71,7 +76,7 @@
   max-width: 200px;
   background: #fff;
   background: rgba(255, 255, 255, 0.5);
-  border-radius: 8px;
+  border-radius: 5px;
   color: #fff;
   text-align: center;
   text-decoration: none;
@@ -157,4 +162,18 @@
   .modal-content {
     width: 100%;
   }
+}
+
+mat-card-actions .mat-card-actions-leftcolumn{
+  float: left;
+}
+
+mat-card-actions .mat-card-actions-rightcolumn{
+  float: right;
+}
+
+.buttons-panel{
+  width: 100%; 
+  height: 30px; 
+  text-align: right
 }
