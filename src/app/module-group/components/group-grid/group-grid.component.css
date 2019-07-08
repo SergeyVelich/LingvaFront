@@ -40,10 +40,12 @@
 
 .table-sort .colDate{
     width: 20px;
+    text-align: center;
 }
 
 .table-sort .colLang{
     width: 20px;
+    text-align: center;
 }
 
 .table-sort .colDesc{
@@ -63,4 +65,6 @@
 
 .table-sort .colAction button{
     display: block;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
 }

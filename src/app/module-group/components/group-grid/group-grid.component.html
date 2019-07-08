@@ -61,7 +61,7 @@
       <tbody>
         <tr *ngFor="let groupInfo of groupData; trackBy: trackByFn">
           <td class="colName">{{groupInfo.name}}</td>
-          <td class="colDate">{{groupInfo.date | date: 'dd/MM/yyyy' }}</td>
+          <td class="colDate">{{groupInfo.date | date: 'dd.MM.yyyy' }}</td>
           <td class="colLang">{{groupInfo.languageName}}</td>
           <td class="colDesc">{{groupInfo.description}}</td>
           <td class="colImage">Image</td>
