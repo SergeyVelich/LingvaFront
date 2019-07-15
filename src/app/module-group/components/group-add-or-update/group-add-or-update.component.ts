@@ -101,7 +101,6 @@ export class GroupAddOrUpdateComponent implements OnInit {
       return;
     }
     this.isImageLoaded = false;
-    debugger;
     this.fileService.getGroupPreview(String(this.groupInfo.id), this.authService.authorizationHeaderValue).subscribe(data => {
       this.createImageFromBlob(data);
       this.isImageLoaded = true;
