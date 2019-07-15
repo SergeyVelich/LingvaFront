@@ -1,65 +1,68 @@
-<mat-card class=group-add-or-update-form>
+<mat-card class=form>
   <mat-card-header>
-    <div mat-card-avatar class="group-add-or-update-form-header-image"></div>
+    <div mat-card-avatar class="form-header-image"></div>
     <mat-card-title *ngIf="groupInfo.id === 0">Add record</mat-card-title>
     <mat-card-title *ngIf="groupInfo.id != 0">Edit record</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-form-field class=group-add-or-update-form-field>
-      <input matInput type="text" placeholder="Name" [(ngModel)]="groupInfo.name" name="name" autocomplete="off">
+    <mat-form-field class=form-field>
+      <input matInput type="text" placeholder="Name" [(ngModel)]="groupInfo.name" name="name" autocomplete="off"
+        required>
       <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="groupInfo.name=''">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
-    <mat-form-field class=group-add-or-update-form-field>
+    <mat-form-field class=form-field>
       <mat-label>Date</mat-label>
-      <input matInput [(ngModel)]="groupInfo.date" [matDatepicker]="from" placeholder="Choose a date" name="date">
+      <input matInput [(ngModel)]="groupInfo.date" [matDatepicker]="from" placeholder="Choose a date" name="date"
+        required>
       <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
       <mat-datepicker #from></mat-datepicker>
     </mat-form-field>
-    <mat-form-field class=group-add-or-update-form-field>
+    <mat-form-field class=form-field>
       <mat-label>Language</mat-label>
       <mat-select [(ngModel)]="groupInfo.languageId" name="languageId">
         <mat-option *ngFor="let language of languages" [value]="language.id">{{language.name}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field class=group-add-or-update-form-field>
+    <mat-form-field class=form-field>
       <textarea matInput matInput cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5"
-        placeholder="Description" [(ngModel)]="groupInfo.description" name="description" autocomplete="off"></textarea>
+        placeholder="Description" [(ngModel)]="groupInfo.description" name="description" autocomplete="off">
+      </textarea>
       <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="groupInfo.description=''">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
-
-
-    <img class=group-add-or-update-form-image-preview [src]="imageToShow" alt="Place image title"
-      *ngIf="!isImageLoading; else noImageFound">
-    <ng-template #noImageFound>
-      <img src="assets/images/fallbackImage.png" alt="Fallbackimage">
-    </ng-template>
-    <div>
+    <div class=upload-area>
       <input #fileInput type="file" accept='image/*' (change)="preview(fileInput.files)" style="display: none" />
-      <button mat-button type="button" class="btn btn-info" (click)="fileInput.click()">Select File</button>
-      <div *ngIf="uploadProgress > 0 && uploadProgress < 100">
-        {{uploadProgress}}%
+      <div class=upload-area-image-func>
+        <img #myImg class=upload-area-image [src]="imageToShow" alt="Place image title"
+        (click)="myModal.style.display='block'; modalImg.src=myImg.src; caption.innerHTML=myImg.alt;"
+          *ngIf="isImageLoaded; else noImageFound">
+        <ng-template #noImageFound>
+          <img class=upload-area-image src="assets/images/fallbackImage.png" alt="Fallbackimage">
+        </ng-template>
+        <button class=upload-area-button-download (click)="fileInput.click()">
+          <span>Download</span>
+        </button>
       </div>
-      <div style="color:red;" *ngIf="message">
+      <div class="error-message" *ngIf="message">
         {{message}}
       </div>
     </div>
   </mat-card-content>
-
-
-
-
-
   <mat-card-actions>
-    <div style="width: 100%; height: 30px; text-align: right">
-      <span style="float: left">
-        <button mat-button type="button" class="btn btn-info" (click)="newRecord($event)">{{buttonTextNew}}</button>
-      </span>
-      <button mat-button type="button" class="btn btn-info"
-        (click)="addOrUpdateGroupRecord($event)">{{buttonTextSave}}</button>
+    <div class="buttons-panel">
+      <button mat-button type="button" class="btn btn-info mat-card-actions-leftcolumn" (click)="newRecord($event)">{{buttonTextNew}}</button>
+      <button mat-button type="button" class="btn btn-info mat-card-actions-rightcolumn" (click)="saveRecord($event)">{{buttonTextSave}}</button>
     </div>
   </mat-card-actions>
 </mat-card>
+
+
+<!-- The Modal -->
+<div #myModal class="modal">
+  <span class="close" (click)="myModal.style.display = 'none'">&times;</span>
+  <img #modalImg class="modal-content">
+  <div #caption class="caption"></div>
+</div>

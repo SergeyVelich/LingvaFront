@@ -1,9 +1,8 @@
 <header>
-    <div class="container">
-        <h1>Lingva</h1>
-        <hr />
-    </div>
-    
+  <div class="content">
+    <h1>Lingva</h1>
+  </div>
+
   <div class="navbar navbar-dark bg-dark box-shadow">
     <div class="container d-flex justify-content-between">
       <a routerLink="/" class="navbar-brand d-flex align-items-center">
@@ -12,6 +11,7 @@
       <nav class="my-2 my-md-0 mr-md-3">
         <a class="p-2 text-light" routerLink="/group">Groups</a>
         <a class="p-2 text-light" routerLink="/topsecret">Top Secret Area</a>
+        <a class="p-2 text-light" routerLink="/contacts">Contacts</a>
       </nav>
       <nav *ngIf="!isAuthenticated" class="my-2 my-md-0 mr-md-3">
         <a class="p-2 text-light" routerLink="/register">Signup</a>

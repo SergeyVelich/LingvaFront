@@ -5,10 +5,10 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthCallbackComponent } from './components/auth-callback/auth-callback.component';
 
-import { Body } from '../module-core/services/body/body.service';
+import { Wrapper } from '../module-core/services/wrapper/wrapper.service';
 
 const routes: Routes = [
-  Body.childRoutes([
+  Wrapper.childRoutes([
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'auth-callback', component: AuthCallbackComponent }

@@ -1,31 +1,70 @@
-.group-grid-form{
-    height: 100%;
+.form{
+    width: 100%;
+    min-height: 75vh;
 }
 
-ul.hr {
-    margin: 0; /* Обнуляем значение отступов */
-    padding: 4px; /* Значение полей */
-   }
-   ul.hr li {
-    display: inline; /* Отображать как строчный элемент */
-    margin-right: 10px; /* Отступ слева */
-    padding: 3px; /* Поля вокруг текста */
-   }
-
-.hr {
-    display: flex;
-    justify-content: space-between;
+.filter-leftcolumn{
+    float: left;
+    width: 40%;
+    margin-left: 0;
+}
+  
+.filter-rightcolumn{
+    float: right;
+    width: 40%;
+    margin-right: 0;
 }
 
-.mat-sort-header-container {
-    align-items: center;
+.filter-field{
+    width: 100%;
+    height: 100%; 
+    min-width: 150px;
 }
 
-th[role=columnheader]:not(.no-sort) {
-    cursor: pointer;
+.table-group{
+    width: 100%;
+    overflow-x: auto;    
 }
 
-th[role=columnheader]:not(.no-sort):hover:after {
-    visibility: visible;
-    opacity: 1;
-} 
+.table-sort th[role=columnheader]{
+    overflow: hidden; 
+    text-overflow:ellipsis;
+}
+
+.table-sort .colName{
+    min-width: 10px;
+    max-width: 30%;
+    overflow: hidden; 
+    text-overflow:ellipsis;
+}
+
+.table-sort .colDate{
+    width: 20px;
+    text-align: center;
+}
+
+.table-sort .colLang{
+    width: 20px;
+    text-align: center;
+}
+
+.table-sort .colDesc{
+    min-width: 30px;
+    max-width: 30%;
+    overflow: hidden; 
+    text-overflow:ellipsis;
+}
+
+.table-sort .colImage{
+    width: 20px;
+}
+
+.table-sort .colAction{
+    width: 20px;
+}
+
+.table-sort .colAction button{
+    display: block;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+}

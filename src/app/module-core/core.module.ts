@@ -2,9 +2,10 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 
 import { SharedModule } from '../module-shared/shared.module';
 
+import { WrapperComponent } from './components/wrapper/wrapper.component';
 import { HeaderComponent } from './components/header/header.component';
-import { BodyComponent } from './components/body/body.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ContentComponent } from './components/content/content.component';
 
 @NgModule({
   imports: [
@@ -12,8 +13,9 @@ import { FooterComponent } from './components/footer/footer.component';
   ],
   declarations: [
     HeaderComponent,
-    BodyComponent,
-    FooterComponent
+    WrapperComponent,
+    FooterComponent,
+    ContentComponent
   ]
 })
 export class CoreModule {

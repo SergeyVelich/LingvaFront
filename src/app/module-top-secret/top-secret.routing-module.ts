@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { Body } from '../module-core/services/body/body.service';
+import { Wrapper } from '../module-core/services/wrapper/wrapper.service';
 import { TopSecretComponent } from './components/top-secret/top-secret.component';
 import { AuthGuard } from '../module-account/services/auth/auth.guard';
 
 const routes: Routes = [
-  Body.childRoutes([
+  Wrapper.childRoutes([
     { path: 'topsecret', component: TopSecretComponent, canActivate: [AuthGuard] }
   ])
 ];

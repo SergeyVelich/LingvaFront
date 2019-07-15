@@ -1,14 +1,14 @@
 <div class="row">
     <div class="col-md-4">
-        <app-group-add-or-update [groupInfo]="currentGroup" 
-            (groupCreated)="createOrUpdateGroup($event)"
-            (groupCleared)="clearGroup($event)">
+        <app-group-add-or-update 
+            [currentGroupChangedEvent]="changeCurrentGroupSubject.asObservable()"
+            (groupChanged)="refreshTable($event)">
         </app-group-add-or-update>
     </div>
     <div class="col-md-8">
-        <app-group-grid [refreshingTable]="refreshingTable" 
-            (editClicked)="editClicked($event)"
-            (removeClicked)="removeClicked($event)" 
-            (groupCleared)="clearGroup($event)"></app-group-grid>
+        <app-group-grid
+            [refreshTableEvent]="refreshTableSubject.asObservable()"            
+            (currentGroupChanged)="changeCurrentGroup($event)">
+        </app-group-grid>
     </div>
 </div>
